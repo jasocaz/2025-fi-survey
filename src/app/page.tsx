@@ -31,7 +31,7 @@ export default function SurveyPage() {
       <FilterBar count={filteredRows.length} total={allRows.length} />
       <HeroSection rows={filteredRows} precomputed={pc} />
       <WhoRespondedSection rows={filteredRows} />
-      <CompareSection allRows={allRows} />
+      <CompareSection allRows={allRows} precomputed={pc} />
       <NetWorthSection
         rows={filteredRows}
         precomputed={pc}

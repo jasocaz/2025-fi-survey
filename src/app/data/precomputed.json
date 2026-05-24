@@ -7,6 +7,11 @@
   "pct_re": 7,
   "median_nw": 1575000,
   "median_fi_number": 2500000,
+  "pct_male": 76,
+  "pct_us": 92,
+  "pct_in_tech": 37,
+  "pct_college": 92,
+  "median_wages": 219338,
   "nw_percentile_table": {
     "p5": 0,
     "p10": 209800,

@@ -4,6 +4,7 @@ import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
+import precomputed from "./data/precomputed.json";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,14 +16,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const fmtCompact = (n: number) =>
+  n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(2).replace(/\.?0+$/, "")}M` : `$${Math.round(n / 1000)}k`;
+
 export const metadata: Metadata = {
   title: "2025 Survey Results for /r/financialindependence",
-  description:
-    "Interactive analysis of 1,149 self-reported responses from the r/financialindependence community on net worth, FI targets, expenses, and the path to financial independence.",
+  description: `Interactive analysis of ${precomputed.total.toLocaleString()} self-reported responses from the r/financialindependence community on net worth, FI targets, expenses, and the path to financial independence.`,
   openGraph: {
     title: "2025 Survey Results for /r/financialindependence",
-    description:
-      "1,149 responses · $1.58M median net worth · $2.5M median FI target · 26% already FI",
+    description: `${precomputed.total.toLocaleString()} responses · ${precomputed.median_nw ? fmtCompact(precomputed.median_nw) : "—"} median net worth · ${precomputed.median_fi_number ? fmtCompact(precomputed.median_fi_number) : "—"} median FI target · ${precomputed.pct_fi}% already FI`,
     type: "website",
   },
 };

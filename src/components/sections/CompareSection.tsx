@@ -8,7 +8,7 @@ import { useVisitorProfile } from "@/hooks/useVisitorProfile";
 import { PercentileBar } from "@/components/charts/PercentileBar";
 import { formatDollar, ordinal, median } from "@/lib/percentile";
 import { AGE_BRACKETS } from "@/lib/types";
-import type { SurveyResponse } from "@/lib/types";
+import type { SurveyResponse, Precomputed } from "@/lib/types";
 
 const AGE_IDX = Object.fromEntries(AGE_BRACKETS.map((b, i) => [b, i]));
 
@@ -32,7 +32,7 @@ function sorted(rows: SurveyResponse[], getter: (r: SurveyResponse) => number | 
   return rows.map(getter).filter((v): v is number => v !== null).sort((a, b) => a - b);
 }
 
-export function CompareSection({ allRows }: { allRows: SurveyResponse[] }) {
+export function CompareSection({ allRows, precomputed }: { allRows: SurveyResponse[]; precomputed: Precomputed }) {
   const { profile, setProfile, results } = useVisitorProfile(allRows);
   const [showMore, setShowMore] = useState(false);
 
@@ -92,8 +92,14 @@ export function CompareSection({ allRows }: { allRows: SurveyResponse[] }) {
           This is <strong>not</strong> a representative sample of Americans, or of Reddit.
         </p>
         <div className="flex flex-wrap gap-2">
-          {["74% male", "92% US", "37% in IT", "median wages $220k", "93% college-educated"].map((chip) => (
-            <span key={chip} className="text-xs px-3 py-1 bg-white border border-amber-200 rounded-full text-amber-700 font-mono">
+          {[
+            `${precomputed.pct_male}% male`,
+            `${precomputed.pct_us}% US`,
+            `${precomputed.pct_in_tech}% in IT`,
+            precomputed.median_wages ? `median wages ${formatDollar(precomputed.median_wages, true)}` : null,
+            `${precomputed.pct_college}% college-educated`,
+          ].filter(Boolean).map((chip) => (
+            <span key={chip as string} className="text-xs px-3 py-1 bg-white border border-amber-200 rounded-full text-amber-700 font-mono">
               {chip}
             </span>
           ))}

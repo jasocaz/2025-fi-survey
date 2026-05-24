@@ -425,6 +425,28 @@ const typedResponses = responses as {
   expenses: { total: number | null };
 }[];
 
+// Demographic stats (used by the bias call-out and OG description)
+const demoTyped = responses as {
+  gender: string | null;
+  in_us: boolean | null;
+  industry: string | null;
+  education: string | null;
+  income: { wages: number | null };
+}[];
+const pctOf = (count: number) => Math.round((count / responses.length) * 100);
+const numMale = demoTyped.filter((r) => r.gender === "Male").length;
+const numUS = demoTyped.filter((r) => r.in_us === true).length;
+const numInTech = demoTyped.filter((r) => r.industry?.includes("Information Technology")).length;
+const numCollege = demoTyped.filter((r) => {
+  const e = r.education ?? "";
+  return e.includes("Bachelor") || e.includes("Master") || e.includes("Doctorate");
+}).length;
+const wagesValues = demoTyped
+  .map((r) => r.income.wages)
+  .filter((v): v is number => v !== null && v > 0)
+  .sort((a, b) => a - b);
+const medianWages = wagesValues.length ? Math.round(percentile(wagesValues, 50)) : null;
+
 const precomputed = {
   total: responses.length,
   completed: responses.filter((r) => (r as {status: string}).status === "COMPLETED").length,
@@ -434,6 +456,12 @@ const precomputed = {
   pct_re: Math.round((numRE / responses.length) * 100),
   median_nw: nwValues.length ? Math.round(percentile(nwValues, 50)) : null,
   median_fi_number: fiNumValues.length ? Math.round(percentile(fiNumValues, 50)) : null,
+  // Demographic snapshot
+  pct_male: pctOf(numMale),
+  pct_us: pctOf(numUS),
+  pct_in_tech: pctOf(numInTech),
+  pct_college: pctOf(numCollege),
+  median_wages: medianWages,
   nw_percentile_table: buildPercentileTable(nwValues),
   nw_by_age: nwByAge(responses),
   fi_flavor_counts: Object.fromEntries(

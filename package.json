@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "build:data": "node --experimental-strip-types scripts/build-data.ts"
+    "build:data": "node --experimental-strip-types scripts/build-data.ts",
+    "verify:data": "node --experimental-strip-types scripts/verify-data.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",

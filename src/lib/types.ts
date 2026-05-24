@@ -114,6 +114,11 @@ export interface Precomputed {
   pct_re: number;
   median_nw: number | null;
   median_fi_number: number | null;
+  pct_male: number;
+  pct_us: number;
+  pct_in_tech: number;
+  pct_college: number;
+  median_wages: number | null;
   nw_percentile_table: Record<string, number>;
   nw_by_age: Array<{
     bracket: string;
