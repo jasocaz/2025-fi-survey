@@ -6,7 +6,11 @@
    ========================================================================= */
 
 [data-theme="redesign"] {
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Font — your project's globals.css has --font-sans: var(--font-sans) (a
+     circular alias), so font-sans utilities fall through to browser default
+     (Times serif on macOS). Pin the font explicitly here. */
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   /* Brand emerald */
   --brand: #0e9f6e;

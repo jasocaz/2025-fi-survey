@@ -1,0 +1,371 @@
+/* =========================================================================
+   Stripe Design System — Colors & Type
+   Derived from the Stripe Issuing pitch deck (Sept 2025) +
+   Stripe's public brand language (stripe.com, Press, Sessions, etc).
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   FONT FACES — Helvetica Neue (user-provided)
+   ------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueUltraLight.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueUltraLightItalic.otf") format("opentype");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueThin.otf") format("opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueThinItalic.otf") format("opentype");
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueLight.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueLightItalic.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueRoman.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueItalic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueMedium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueMediumItalic.otf") format("opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueBold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueBoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueHeavy.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueHeavyItalic.otf") format("opentype");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueBlack.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("fonts/HelveticaNeueBlackItalic.otf") format("opentype");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* -------------------------------------------------------------------------
+   DESIGN TOKENS
+   ------------------------------------------------------------------------- */
+:root {
+  /* ===== Brand =====
+     Palette shifted from purple to green.
+     Token names kept (--stripe-purple) so every downstream rule
+     picks up the new values without find/replace. */
+  --stripe-purple: #0E9F6E;        /* Brand green — emerald, deep enough for body accents */
+  --stripe-purple-dark: #0A8657;   /* Hover / pressed */
+  --stripe-purple-light: #3DDB9A;
+  --stripe-navy: #0A2540;          /* Primary brand dark — headlines, body */
+  --stripe-navy-deep: #011936;     /* Backgrounds, deepest */
+
+  /* ===== Neutrals (cool, slightly blue-leaning) ===== */
+  --slate-900: #0A2540;
+  --slate-800: #1A2C42;
+  --slate-700: #2A3A55;
+  --slate-600: #425466;            /* Default body / secondary text */
+  --slate-500: #525F7F;
+  --slate-400: #6B7C93;
+  --slate-300: #8898AA;
+  --slate-200: #ADBDCC;
+  --slate-100: #C1CCDD;
+  --slate-050: #E3E8EE;
+  --slate-025: #F6F9FC;            /* Page background — cool off-white */
+  --white: #FFFFFF;
+  --black: #000000;
+
+  /* ===== Accent palette (Stripe's gradient mesh + product accents) ===== */
+  --accent-yellow: #FED703;
+  --accent-pink: #F34BCC;
+  --accent-orange: #FF6118;
+  --accent-red: #EA2161;
+  --accent-blue: #533AFD;
+  --accent-dark-cyan: #061B31;
+  --accent-green: #00D924;         /* Success */
+
+  /* ===== Semantic ===== */
+  --success: var(--accent-green);
+  --success-bg: #E6F9EA;
+  --warning: #FFC107;
+  --warning-bg: #FFF8E1;
+  --danger: #DF1B41;
+  --danger-bg: #FCE9EE;
+  --info: var(--stripe-purple);
+  --info-bg: #E6F7F0;
+
+  /* ===== Foreground / Background semantic vars ===== */
+  --fg-1: var(--stripe-navy);      /* Primary text — headlines, body */
+  --fg-2: var(--slate-600);        /* Secondary text — descriptions */
+  --fg-3: var(--slate-400);        /* Tertiary — captions, metadata */
+  --fg-4: var(--slate-300);        /* Disabled */
+  --fg-inverse: var(--white);
+  --fg-brand: var(--stripe-purple);
+  --fg-link: var(--stripe-purple);
+
+  --bg-page: var(--white);
+  --bg-page-alt: var(--slate-025);
+  --bg-surface: var(--white);
+  --bg-surface-alt: var(--slate-025);
+  --bg-dark: var(--stripe-navy);
+  --bg-dark-deep: var(--stripe-navy-deep);
+  --bg-brand: var(--stripe-purple);
+
+  --border-1: var(--slate-050);
+  --border-2: var(--slate-100);
+  --border-strong: var(--slate-200);
+
+  /* ===== Type ===== */
+  --font-sans: "Helvetica Neue", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "SFMono-Regular", "SF Mono", Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --font-display: "Helvetica Neue", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Helvetica, Arial, sans-serif;
+
+  /* Weights */
+  --fw-thin: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  --fw-heavy: 800;
+  --fw-black: 900;
+
+  /* Type scale — modular, slide-friendly */
+  --fs-display-xl: 96px;   /* hero numbers / title cards */
+  --fs-display-lg: 72px;
+  --fs-display-md: 56px;
+  --fs-display-sm: 44px;
+  --fs-h1: 40px;
+  --fs-h2: 32px;
+  --fs-h3: 24px;
+  --fs-h4: 20px;
+  --fs-h5: 18px;
+  --fs-body-lg: 18px;
+  --fs-body: 16px;
+  --fs-body-sm: 14px;
+  --fs-caption: 12px;
+  --fs-overline: 11px;
+
+  /* Line heights */
+  --lh-tight: 1.05;
+  --lh-snug: 1.2;
+  --lh-normal: 1.4;
+  --lh-relaxed: 1.55;
+  --lh-loose: 1.7;
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-snug: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-overline: 0.12em;
+
+  /* ===== Spacing scale (8px base, with finer steps) ===== */
+  --s-0: 0;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+  --s-32: 128px;
+
+  /* ===== Radii ===== */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-pill: 999px;
+
+  /* ===== Shadows — Stripe uses soft, layered shadows ===== */
+  --shadow-xs: 0 1px 2px rgba(10, 37, 64, 0.06);
+  --shadow-sm: 0 2px 5px rgba(10, 37, 64, 0.08), 0 1px 2px rgba(10, 37, 64, 0.04);
+  --shadow-md: 0 6px 16px rgba(10, 37, 64, 0.08), 0 2px 4px rgba(10, 37, 64, 0.06);
+  --shadow-lg: 0 12px 28px rgba(10, 37, 64, 0.10), 0 4px 8px rgba(10, 37, 64, 0.06);
+  --shadow-xl: 0 24px 48px rgba(10, 37, 64, 0.12), 0 8px 16px rgba(10, 37, 64, 0.08);
+  --shadow-card: 0 2px 5px 0 rgba(60, 66, 87, 0.08),
+                 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+  --shadow-focus: 0 0 0 4px rgba(14, 159, 110, 0.25);
+
+  /* ===== Gradients — Stripe's signature meshes ===== */
+  --grad-hero: linear-gradient(135deg, #11EFE3 0%, #0E9F6E 50%, #04432D 100%);
+  --grad-purple: linear-gradient(135deg, #3DDB9A 0%, #0E9F6E 50%, #0A8657 100%);
+  --grad-purple-deep: linear-gradient(135deg, #0E9F6E 0%, #04432D 100%);
+  --grad-navy: linear-gradient(180deg, #0A2540 0%, #011936 100%);
+  --grad-pink: linear-gradient(135deg, #FF8A65 0%, #FF5996 100%);
+  --grad-rainbow: linear-gradient(135deg, #11EFE3 0%, #0E9F6E 35%, #FED703 75%, #FF8A65 100%);
+  --grad-soft: linear-gradient(180deg, #F6F9FC 0%, #FFFFFF 100%);
+
+  /* ===== Motion ===== */
+  --ease-default: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --dur-slower: 480ms;
+}
+
+/* -------------------------------------------------------------------------
+   BASE + SEMANTIC TYPOGRAPHY
+   ------------------------------------------------------------------------- */
+html, body {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  color: var(--fg-1);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--fg-1);
+  margin: 0;
+}
+h2, .h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-snug);
+  color: var(--fg-1);
+  margin: 0;
+}
+h3, .h3 {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+  margin: 0;
+}
+h4, .h4 {
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+  margin: 0;
+}
+h5, .h5 {
+  font-size: var(--fs-h5);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+  margin: 0;
+}
+
+p, .p { margin: 0; line-height: var(--lh-relaxed); color: var(--fg-1); }
+small, .caption { font-size: var(--fs-caption); color: var(--fg-3); line-height: var(--lh-normal); }
+
+/* Display utilities — for slide titles & hero numbers */
+.display-xl { font-size: var(--fs-display-xl); font-weight: var(--fw-medium); line-height: var(--lh-tight); letter-spacing: var(--tracking-tight); }
+.display-lg { font-size: var(--fs-display-lg); font-weight: var(--fw-medium); line-height: var(--lh-tight); letter-spacing: var(--tracking-tight); }
+.display-md { font-size: var(--fs-display-md); font-weight: var(--fw-medium); line-height: var(--lh-tight); letter-spacing: var(--tracking-snug); }
+.display-sm { font-size: var(--fs-display-sm); font-weight: var(--fw-medium); line-height: var(--lh-tight); letter-spacing: var(--tracking-snug); }
+
+/* Overline / eyebrow — used in Stripe pitch decks for section labels */
+.overline {
+  font-size: var(--fs-overline);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-overline);
+  color: var(--fg-brand);
+}
+
+code, kbd, samp, pre, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--fg-1);
+}

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2025 FI Survey · Report redesign</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet" href="report.css">
+</head>
+<body>
+
+<!-- ================================================================ -->
+<!-- TOP NAV                                                          -->
+<!-- ================================================================ -->
+<header class="topnav">
+  <div class="shell topnav__inner">
+    <a class="topnav__brand" href="#top">
+      <span class="topnav__mark"></span>
+      <span>2025 FI Survey</span>
+    </a>
+    <nav class="topnav__links">
+      <a href="#audit">Audit</a>
+      <a href="#report">The report</a>
+      <a href="#networth">Net worth</a>
+      <a href="#targets">FI targets</a>
+      <a href="#allocation">Allocation</a>
+      <a href="#cohort">Already FI</a>
+    </nav>
+    <a class="topnav__cta" href="#report">Read the report</a>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ================================================================ -->
+<!-- AUDIT BAND                                                       -->
+<!-- ================================================================ -->
+<section class="audit-band" id="audit">
+  <div class="shell">
+    <div class="audit-grid">
+      <div>
+        <div class="eyebrow">Design audit</div>
+        <h2>The data is interesting. The report doesn't make it feel that way.</h2>
+        <p class="lede">
+          Below: what's working against the current version, the principles
+          a redesign should follow, and a full responsive rebuild.
+        </p>
+        <div style="margin-top: 24px;">
+          <a class="chip" href="#report">Skip to the redesigned report &nbsp;→</a>
+        </div>
+      </div>
+
+      <div>
+        <!-- What's wrong -->
+        <div class="overline" style="color: var(--fg-3); margin-bottom: 12px;">What's working against it today</div>
+        <h3 style="font-size: 22px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 18px;">
+          Six issues a redesign needs to fix
+        </h3>
+
+        <div class="compare">
+          <div class="compare__col compare__col--bad">
+            <div class="head">Now</div>
+            <div class="body"><strong>Fragmented rhythm.</strong> Every chart sits alone in its own block. Related metrics drift apart instead of being read together; the page feels like a slideshow scrolling past, not a report.</div>
+          </div>
+          <div class="compare__col compare__col--good">
+            <div class="head">Redesign</div>
+            <div class="body"><strong>Banded modules.</strong> Group net worth + by-age + distribution into one read. Each major theme is a single horizontal band with internal grid, not five vertical blocks.</div>
+          </div>
+        </div>
+
+        <div class="compare">
+          <div class="compare__col compare__col--bad">
+            <div class="head">Now</div>
+            <div class="body"><strong>No typographic hierarchy.</strong> Section titles, chart titles, and metrics all read at similar weight, so the eye can't find the headline number on the page.</div>
+          </div>
+          <div class="compare__col compare__col--good">
+            <div class="head">Redesign</div>
+            <div class="body"><strong>Three-tier scale.</strong> Eyebrow → section title at 44px Medium → 56–96px display numbers for headline stats. Hierarchy carried by size, not weight or color.</div>
+          </div>
+        </div>
+
+        <div class="compare">
+          <div class="compare__col compare__col--bad">
+            <div class="head">Now</div>
+            <div class="body"><strong>Charts look generic.</strong> Default chart-library aesthetics &mdash; thick gridlines, primary colors, tooltips on hover. They read as Plotly, not as part of a designed report.</div>
+          </div>
+          <div class="compare__col compare__col--good">
+            <div class="head">Redesign</div>
+            <div class="body"><strong>House style for every chart.</strong> One accent color (purple), tabular numerals, dotted 1px gridlines, axis labels at 11px tertiary, no chart titles &mdash; the section title is the chart title.</div>
+          </div>
+        </div>
+
+        <div class="compare">
+          <div class="compare__col compare__col--bad">
+            <div class="head">Now</div>
+            <div class="body"><strong>No narrative spine.</strong> Sections are ordered by question number, not by what a reader wants to know. The "26% already FI" headline gets buried alongside everything else.</div>
+          </div>
+          <div class="compare__col compare__col--good">
+            <div class="head">Redesign</div>
+            <div class="body"><strong>Five-act structure.</strong> Who responded → where they stand → where they're going → how they live → the FI cohort. Each act opens with one headline number.</div>
+          </div>
+        </div>
+
+        <div class="compare">
+          <div class="compare__col compare__col--bad">
+            <div class="head">Now</div>
+            <div class="body"><strong>Some charts are the wrong choice.</strong> Bar charts for things that should be distributions; pies for things with too many categories; lines for things that aren't time series.</div>
+          </div>
+          <div class="compare__col compare__col--good">
+            <div class="head">Redesign</div>
+            <div class="body"><strong>Pick the viz to the question.</strong> Distributions → histograms with median callout. Multi-category breakdowns → ranked bar lists. By-age trends → connected scatter with band, not a flat bar.</div>
+          </div>
+        </div>
+
+        <div class="compare">
+          <div class="compare__col compare__col--bad">
+            <div class="head">Now</div>
+            <div class="body"><strong>Mobile feels like an afterthought.</strong> Tables and side-by-side charts squeeze, axis labels collide, and the page becomes a long column of cramped widgets.</div>
+          </div>
+          <div class="compare__col compare__col--good">
+            <div class="head">Redesign</div>
+            <div class="body"><strong>Designed at two widths.</strong> Multi-column grids collapse to ranked lists with inline bars. Charts re-flow with new label density. Density stays high &mdash; nothing balloons.</div>
+          </div>
+        </div>
+
+        <!-- Principles -->
+        <div class="overline" style="color: var(--fg-3); margin: 48px 0 12px;">Principles for the redesign</div>
+        <h3 style="font-size: 22px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 18px;">
+          Eight rules the rebuild follows
+        </h3>
+        <div class="principles">
+          <div class="principle">
+            <div class="num">01 — Color</div>
+            <h4>Navy on white, with one purple.</h4>
+            <p>The whole report reads as navy on near-white. Purple is the only accent and appears at most once per screen — for the headline number, an active state, or the hero gradient. No chart-library palettes.</p>
+          </div>
+          <div class="principle">
+            <div class="num">02 — Type</div>
+            <h4>Hierarchy by size, not by weight.</h4>
+            <p>Medium (500) is the working weight for headlines. Distinguish levels by size and tracking — 44px section titles, 56–96px display numbers — rather than by going bold or changing color.</p>
+          </div>
+          <div class="principle">
+            <div class="num">03 — Numbers</div>
+            <h4>One headline number per section.</h4>
+            <p>Every section opens with the single number a reader will remember. The chart is supporting evidence, not the main event. Big numerals are tracked tight (-0.035em) and use tabular figures throughout.</p>
+          </div>
+          <div class="principle">
+            <div class="num">04 — Density</div>
+            <h4>Pack related metrics; pad between themes.</h4>
+            <p>Inside a theme (net worth + by age + distribution) cards sit on a tight 24px grid. Between themes, sections breathe — 56px vertical rhythm and a 1px slate rule separator. The "fragmented" feel comes from doing the opposite.</p>
+          </div>
+          <div class="principle">
+            <div class="num">05 — Charts</div>
+            <h4>House style applied to every chart.</h4>
+            <p>1px dotted gridlines in slate-050. Axis labels in 11px tertiary. No chart titles — the section title is the title. Medians and percentiles drawn as labeled lines, not annotations in legends.</p>
+          </div>
+          <div class="principle">
+            <div class="num">06 — Voice</div>
+            <h4>Keep the community; lose the cuteness.</h4>
+            <p>The Reddit-community origin is part of the story. Keep the plain-spoken framing and self-reported caveats — but cut emoji, asides, and meme adjacency. Confident sentence-case headlines.</p>
+          </div>
+          <div class="principle">
+            <div class="num">07 — Imagery</div>
+            <h4>Gradient mesh on hero. White everywhere else.</h4>
+            <p>The hero earns one full-bleed gradient. Every content section is white or slate-025. No stock photos, no decorative illustrations, no patterns. Charts and numbers carry visual interest.</p>
+          </div>
+          <div class="principle">
+            <div class="num">08 — Mobile</div>
+            <h4>Tables become ranked lists with inline bars.</h4>
+            <p>Three-column grids → single column with each row using a CSS bar to show its share. Charts re-flow to vertical orientation. Density holds; the page should not balloon on a phone.</p>
+          </div>
+        </div>
+
+        <!-- Section-by-section playbook -->
+        <div class="overline" style="color: var(--fg-3); margin: 56px 0 12px;">Section-by-section playbook</div>
+        <h3 style="font-size: 22px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 18px;">
+          What to change, section by section
+        </h3>
+
+        <table class="dt" style="margin-top: 8px;">
+          <thead>
+            <tr>
+              <th style="width: 22%;">Section</th>
+              <th style="width: 32%;">Headline number</th>
+              <th>Recommended viz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Hero / cover</td><td>$1.58M median net worth</td><td>Four-stat KPI row + gradient mesh background</td></tr>
+            <tr><td>Who responded</td><td>1,149 self-reported responses</td><td>Numbered-step methodology + four demographic mini-bars</td></tr>
+            <tr><td>Net worth</td><td>$1.58M median (mean $2.41M)</td><td>Histogram with median + mean callouts + by-age scatter band</td></tr>
+            <tr><td>FI targets</td><td>$2.5M median target</td><td>Distribution histogram + multiple-of-expenses bar</td></tr>
+            <tr><td>Savings &amp; expenses</td><td>38% median savings rate</td><td>Expense breakdown ranked bars + savings-rate histogram</td></tr>
+            <tr><td>Allocation</td><td>~85% in equities, all accounts</td><td>Single stacked horizontal bar + ranked account-type list</td></tr>
+            <tr><td>Withdrawal plans</td><td>3.5% median planned SWR</td><td>Ranked-strategy bar (4% rule, VPW, dynamic, etc.)</td></tr>
+            <tr><td>Years to FI</td><td>11-year median (for non-FI)</td><td>Histogram with FI-already cohort isolated as a chip</td></tr>
+            <tr><td>The 26% already FI</td><td>26% of respondents</td><td>Big number + side-by-side cohort comparison table</td></tr>
+            <tr><td>Notable findings</td><td>—</td><td>Three pull quotes + qualitative call-outs from free-text</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a id="report"></a>
+
+<!-- ================================================================ -->
+<!-- HERO (variants)                                                  -->
+<!-- ================================================================ -->
+<section class="hero hero--gradient" id="hero">
+  <div class="shell hero__inner">
+    <div class="hero__eyebrow"><span class="dot"></span>2025 Community Survey · r/financialindependence</div>
+    <h1 class="hero__title">A view of 1,149 paths to financial independence.</h1>
+    <p class="hero__sub">
+      A self-reported snapshot of where this community stands &mdash; net worth, FI targets,
+      expenses, allocation, and the 26% who say they're already there.
+    </p>
+    <div class="hero__stats">
+      <div class="stat">
+        <div class="num">1,149</div>
+        <div class="lbl">Self-reported responses, collected Apr&ndash;May 2025.</div>
+      </div>
+      <div class="stat">
+        <div class="num">$1.58<span class="accent">M</span></div>
+        <div class="lbl">Median household net worth across all respondents.</div>
+      </div>
+      <div class="stat">
+        <div class="num">$2.5<span class="accent">M</span></div>
+        <div class="lbl">Median FI target. Mean target sits at $3.1M.</div>
+      </div>
+      <div class="stat">
+        <div class="num">26<span class="accent">%</span></div>
+        <div class="lbl">Of respondents say they have already reached FI.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Hero variant switcher removed — gradient is the committed treatment.
+</script>
+
+<!-- include rest of report -->
+<script>
+  // Inject sections from external file
+</script>
+<div id="report-body"></div>
+<script src="report-body.js"></script>
+
+<footer class="report-footer">
+  <div class="shell">
+    <h3>An annual self-portrait of a community walking toward financial independence.</h3>
+    <p>
+      This redesign is a visual proposal &mdash; the data is unchanged. All numbers shown are
+      illustrative and intended to convey the recommended treatment for each section type.
+    </p>
+    <div class="links">
+      <a href="#audit">Design audit</a>
+      <a href="#report">Read the report</a>
+      <a href="#methodology">Methodology</a>
+      <a href="https://www.reddit.com/r/financialindependence/" target="_blank" rel="noopener">r/financialindependence ↗</a>
+      <span style="margin-left:auto;" class="muted">Redesign mock · May 2026</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
