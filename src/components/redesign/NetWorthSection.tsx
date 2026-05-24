@@ -2,11 +2,11 @@
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell } from "recharts";
 import { WhiskerChart } from "./charts/WhiskerChart";
-import { percentileValue, median } from "@/lib/percentile";
+import { percentileValue, median, formatDollar } from "@/lib/percentile";
 import { AGE_BRACKETS } from "@/lib/types";
 import type { SurveyResponse, Precomputed } from "@/lib/types";
 import { SectionHeader } from "./SectionHeader";
-import { CHART, BRAND, ASSET_COLORS, DEBT_COLORS } from "@/lib/redesign/theme";
+import { CHART, BRAND, ASSET_COLORS, DEBT_COLORS, SLATE } from "@/lib/redesign/theme";
 
 function pct(sorted: number[], p: number) {
   return sorted.length ? percentileValue(sorted, p) : null;
@@ -149,12 +149,35 @@ export function NetWorthSection({
   const debtData = buildDebtWhiskerData(rows);
 
   const nwValues = rows.map((r) => r.assets.total).filter((v): v is number => v !== null);
+  const nwSorted = [...nwValues].sort((a, b) => a - b);
   const medNW = nwValues.length ? median(nwValues) : null;
   const medNWFmt = medNW !== null
     ? medNW >= 1_000_000
       ? `$${(medNW / 1_000_000).toFixed(2).replace(/\.?0+$/, "")}M`
       : `$${Math.round(medNW / 1000)}k`
     : "$1.58M";
+
+  const meanNW = nwValues.length ? nwValues.reduce((a, b) => a + b, 0) / nwValues.length : null;
+  const p10NW = nwSorted.length ? percentileValue(nwSorted, 10) : null;
+  const p90NW = nwSorted.length ? percentileValue(nwSorted, 90) : null;
+  const top1NW = nwSorted.length ? percentileValue(nwSorted, 99) : null;
+
+  const nwBuckets = [
+    { label: "< $100k", min: -Infinity, max: 100_000 },
+    { label: "$100k–$250k", min: 100_000, max: 250_000 },
+    { label: "$250k–$500k", min: 250_000, max: 500_000 },
+    { label: "$500k–$750k", min: 500_000, max: 750_000 },
+    { label: "$750k–$1M", min: 750_000, max: 1_000_000 },
+    { label: "$1M–$1.5M", min: 1_000_000, max: 1_500_000 },
+    { label: "$1.5M–$2M", min: 1_500_000, max: 2_000_000 },
+    { label: "$2M–$3M", min: 2_000_000, max: 3_000_000 },
+    { label: "$3M–$5M", min: 3_000_000, max: 5_000_000 },
+    { label: "$5M+", min: 5_000_000, max: Infinity },
+  ];
+  const nwHistData = nwBuckets.map(({ label, min, max }) => ({
+    label,
+    count: nwValues.filter((v) => v >= min && v < max).length,
+  }));
 
   const pctToFIData = AGE_BRACKETS.map((bracket) => {
     const vals = rows
@@ -187,6 +210,128 @@ export function NetWorthSection({
           </>
         }
       />
+
+      {/* Module 0: Bignum card + NW histogram */}
+      <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-6 mb-6">
+        {/* Purple bignum card */}
+        <div className="rd-card rd-card--purple flex flex-col justify-between">
+          <div>
+            <p
+              style={{
+                fontSize: 11,
+                textTransform: "uppercase",
+                letterSpacing: "0.10em",
+                color: "rgba(255,255,255,0.65)",
+                marginBottom: 12,
+                fontWeight: 500,
+              }}
+            >
+              Median net worth
+            </p>
+            <div className="bignum">
+              {medNW !== null
+                ? medNW >= 1_000_000
+                  ? <>{(medNW / 1_000_000).toFixed(2).replace(/\.?0+$/, "")}<span className="unit">M</span></>
+                  : <>{Math.round(medNW / 1000)}<span className="unit">k</span></>
+                : "1.58M"
+              }
+            </div>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "12px 20px",
+              marginTop: 28,
+              paddingTop: 20,
+              borderTop: "1px solid rgba(255,255,255,0.15)",
+            }}
+          >
+            {[
+              { label: "Mean", val: meanNW ? formatDollar(meanNW, true) : "—" },
+              { label: "P10", val: p10NW ? formatDollar(p10NW, true) : "—" },
+              { label: "P90", val: p90NW ? formatDollar(p90NW, true) : "—" },
+              { label: "Top 1%", val: top1NW ? formatDollar(top1NW, true) : "—" },
+            ].map(({ label, val }) => (
+              <div key={label}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.08em", color: "rgba(255,255,255,0.50)", marginBottom: 2 }}>
+                  {label}
+                </div>
+                <div style={{ fontSize: 16, fontWeight: 500, color: "white", fontVariantNumeric: "tabular-nums" }}>
+                  {val}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* NW Histogram */}
+        <div className="bg-white border border-[var(--slate-050)] rounded-xl p-6">
+          <h3 className="text-[13px] font-medium text-foreground mb-4">Net worth distribution</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={nwHistData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
+              <XAxis
+                dataKey="label"
+                tick={{ fontSize: 10, fill: CHART.axisLabel }}
+                axisLine={false}
+                tickLine={false}
+                angle={-35}
+                textAnchor="end"
+                height={48}
+              />
+              <YAxis tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <Tooltip
+                formatter={(v) => [v, "respondents"]}
+                contentStyle={{ fontSize: 12, borderColor: CHART.tooltipBorder, borderRadius: 8 }}
+              />
+              <Bar dataKey="count" fill={BRAND.green} radius={[3, 3, 0, 0]} maxBarSize={40} />
+              {medNW !== null && (
+                <ReferenceLine
+                  x={medNWFmt}
+                  stroke={BRAND.green}
+                  strokeWidth={1.5}
+                  strokeDasharray="3 3"
+                  label={({ viewBox }) => {
+                    const { x = 0, y = 0 } = (viewBox as { x?: number; y?: number }) ?? {};
+                    const lbl = `MEDIAN`;
+                    const w = lbl.length * 6.5 + 16;
+                    return (
+                      <g transform={`translate(${x}, ${y - 12})`}>
+                        <rect x={-w / 2} y={-16} width={w} height={18} rx={9} fill={BRAND.green} />
+                        <text x={0} y={-3} textAnchor="middle" fontSize={10} fontWeight={500} fill="white" letterSpacing="0.04em">
+                          {lbl}
+                        </text>
+                      </g>
+                    );
+                  }}
+                />
+              )}
+              {meanNW !== null && (
+                <ReferenceLine
+                  x={nwBuckets.find((b) => meanNW >= b.min && meanNW < b.max)?.label}
+                  stroke={SLATE[400]}
+                  strokeWidth={1.5}
+                  strokeDasharray="3 3"
+                  label={({ viewBox }) => {
+                    const { x = 0, y = 0 } = (viewBox as { x?: number; y?: number }) ?? {};
+                    const lbl = `MEAN`;
+                    const w = lbl.length * 6.5 + 16;
+                    return (
+                      <g transform={`translate(${x}, ${y - 12})`}>
+                        <rect x={-w / 2} y={-16} width={w} height={18} rx={9} fill={SLATE[400]} />
+                        <text x={0} y={-3} textAnchor="middle" fontSize={10} fontWeight={500} fill="white" letterSpacing="0.04em">
+                          {lbl}
+                        </text>
+                      </g>
+                    );
+                  }}
+                />
+              )}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
       {/* Module 1: NW whisker */}
       <div className="bg-white border border-[var(--slate-050)] rounded-xl p-6 mb-6">

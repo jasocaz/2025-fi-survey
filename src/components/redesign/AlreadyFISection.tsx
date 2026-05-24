@@ -103,15 +103,44 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
                   Already FI
                 </th>
                 <th className="text-right text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--slate-400)] pb-3">
-                  Pursuing
+                  Not yet FI
+                </th>
+                <th className="text-right text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--slate-400)] pb-3">
+                  Delta
                 </th>
               </tr>
             </thead>
             <tbody className="text-foreground">
-              <CmpRow label="Median net worth" fi={medFiNW ? formatDollar(medFiNW, true) : "—"} pursuing={medNonFiNW ? formatDollar(medNonFiNW, true) : "—"} />
-              <CmpRow label="Median target SWR" fi={medTargetSWR ? `${medTargetSWR.toFixed(2)}%` : "—"} pursuing="—" />
-              <CmpRow label="Median actual SWR" fi={medActualSWR ? `${medActualSWR.toFixed(2)}%` : "—"} pursuing="—" />
-              <CmpRow label="Currently retired" fi={`${reRows.length} (${Math.round((reRows.length / n) * 100)}%)`} pursuing="—" last />
+              <CmpRow
+                label="Median net worth"
+                fi={medFiNW ? formatDollar(medFiNW, true) : "—"}
+                pursuing={medNonFiNW ? formatDollar(medNonFiNW, true) : "—"}
+                delta={
+                  medFiNW && medNonFiNW
+                    ? `+${formatDollar(medFiNW - medNonFiNW, true)}`
+                    : "—"
+                }
+                positive
+              />
+              <CmpRow
+                label="Median target SWR"
+                fi={medTargetSWR ? `${medTargetSWR.toFixed(2)}%` : "—"}
+                pursuing="—"
+                delta="—"
+              />
+              <CmpRow
+                label="Median actual SWR"
+                fi={medActualSWR ? `${medActualSWR.toFixed(2)}%` : "—"}
+                pursuing="—"
+                delta="—"
+              />
+              <CmpRow
+                label="Currently retired"
+                fi={`${reRows.length} (${Math.round((reRows.length / n) * 100)}%)`}
+                pursuing="—"
+                delta="—"
+                last
+              />
             </tbody>
           </table>
         </div>
@@ -205,19 +234,30 @@ function CmpRow({
   label,
   fi,
   pursuing,
+  delta,
+  positive,
   last,
 }: {
   label: string;
   fi: string;
   pursuing: string;
+  delta: string;
+  positive?: boolean;
   last?: boolean;
 }) {
   const cls = last ? "" : "border-b border-[var(--slate-050)]";
+  const deltaColor =
+    delta === "—"
+      ? "text-[var(--slate-400)]"
+      : positive
+        ? "text-[var(--brand)]"
+        : "text-[#DF1B41]";
   return (
     <tr className={cls}>
       <td className="py-3 text-[var(--slate-600)]">{label}</td>
       <td className="py-3 text-right font-mono numerics font-medium text-[var(--brand)]">{fi}</td>
       <td className="py-3 text-right font-mono numerics text-[var(--slate-600)]">{pursuing}</td>
+      <td className={`py-3 text-right font-mono numerics font-medium ${deltaColor}`}>{delta}</td>
     </tr>
   );
 }
