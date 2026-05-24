@@ -31,6 +31,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
   const targetSWRs = fiRows.map((r) => r.target_swr).filter((v): v is number => v !== null && v > 0 && v <= 10);
   const medTargetSWR = median(targetSWRs);
   const medActualSWR = median(swrVals);
+  const medActualSWRBin = medActualSWR !== null ? `${(Math.round(medActualSWR * 2) / 2).toFixed(1)}%` : null;
 
   const wdData = [
     { name: "Less than planned", value: reRows.filter((r) => r.withdrawal_vs_plan === "less").length, color: BRAND.green },
@@ -124,21 +125,43 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
             Most retirees are well below their target. The 4% rule stays comfortably unbreached.
           </p>
           <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={swrData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+            <BarChart data={swrData} margin={{ top: 28, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-              <XAxis dataKey="swr" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="swr" tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <Tooltip
                 formatter={(v) => [v, "retirees"]}
                 contentStyle={{ fontSize: 12, borderColor: CHART.tooltipBorder, borderRadius: 8 }}
               />
               <Bar dataKey="count" fill={BRAND.green} radius={[3, 3, 0, 0]} maxBarSize={28} />
+              {medActualSWRBin && (
+                <ReferenceLine
+                  x={medActualSWRBin}
+                  stroke={BRAND.green}
+                  strokeWidth={1.5}
+                  strokeDasharray="3 3"
+                  ifOverflow="extendDomain"
+                  label={({ viewBox }) => {
+                    const { x = 0, y = 0 } = (viewBox as { x?: number; y?: number }) ?? {};
+                    const label = `MEDIAN ${medActualSWR?.toFixed(1)}%`;
+                    const w = label.length * 6.5 + 16;
+                    return (
+                      <g transform={`translate(${x}, ${y - 12})`}>
+                        <rect x={-w / 2} y={-16} width={w} height={18} rx={9} fill={BRAND.green} />
+                        <text x={0} y={-3} textAnchor="middle" fontSize={10} fontWeight={500} fill="white" letterSpacing="0.04em">
+                          {label}
+                        </text>
+                      </g>
+                    );
+                  }}
+                />
+              )}
               <ReferenceLine
                 x="4.0%"
                 stroke="#FF8A65"
                 strokeWidth={2}
                 strokeDasharray="4 2"
-                label={{ value: "4%", position: "top", fontSize: 10, fill: "#C75032", fontWeight: 700 }}
+                label={{ value: "4%", position: "insideTopRight", fontSize: 10, fill: "#C75032", fontWeight: 700 }}
               />
             </BarChart>
           </ResponsiveContainer>

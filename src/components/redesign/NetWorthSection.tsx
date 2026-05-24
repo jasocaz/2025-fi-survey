@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, PieChart, Pie, Cell } from "recharts";
 import { WhiskerChart } from "./charts/WhiskerChart";
-import { percentileValue } from "@/lib/percentile";
+import { percentileValue, median } from "@/lib/percentile";
 import { AGE_BRACKETS } from "@/lib/types";
 import type { SurveyResponse, Precomputed } from "@/lib/types";
 import { SectionHeader } from "./SectionHeader";
@@ -157,6 +157,9 @@ export function NetWorthSection({
     return { bracket, median: pct(sorted, 50) };
   }).filter(Boolean) as { bracket: string; median: number | null }[];
 
+  const allPctToFI = rows.map((r) => r.pct_to_fi).filter((v): v is number => v !== null);
+  const medPctToFI = allPctToFI.length ? median(allPctToFI) : null;
+
   return (
     <section data-section id="networth">
       <SectionHeader
@@ -206,11 +209,11 @@ export function NetWorthSection({
           <ResponsiveContainer width="100%" height={160}>
             <BarChart data={pctToFIData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-              <XAxis dataKey="bracket" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="bracket" tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <YAxis
                 tickFormatter={(v) => `${v}%`}
                 domain={[0, 100]}
-                tick={{ fontSize: 11, fill: CHART.axisLabel }}
+                tick={{ fontSize: 12, fill: CHART.axisLabel }}
                 axisLine={false}
                 tickLine={false}
               />
@@ -219,6 +222,27 @@ export function NetWorthSection({
                 contentStyle={{ fontSize: 12, borderColor: CHART.tooltipBorder, borderRadius: 8 }}
               />
               <Bar dataKey="median" fill={BRAND.green} radius={[3, 3, 0, 0]} maxBarSize={40} />
+              {medPctToFI !== null && (
+                <ReferenceLine
+                  y={medPctToFI}
+                  stroke={BRAND.green}
+                  strokeWidth={1.5}
+                  strokeDasharray="3 3"
+                  label={({ viewBox }) => {
+                    const { x = 0, y = 0 } = (viewBox as { x?: number; y?: number }) ?? {};
+                    const label = `MED ${medPctToFI.toFixed(0)}%`;
+                    const w = label.length * 6.5 + 16;
+                    return (
+                      <g transform={`translate(${x + 4}, ${y})`}>
+                        <rect x={0} y={-9} width={w} height={18} rx={9} fill={BRAND.green} />
+                        <text x={w / 2} y={4} textAnchor="middle" fontSize={10} fontWeight={500} fill="white" letterSpacing="0.04em">
+                          {label}
+                        </text>
+                      </g>
+                    );
+                  }}
+                />
+              )}
             </BarChart>
           </ResponsiveContainer>
         </div>

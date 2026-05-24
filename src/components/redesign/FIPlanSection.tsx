@@ -17,9 +17,24 @@ import type { SurveyResponse } from "@/lib/types";
 import { FI_FLAVORS } from "@/lib/types";
 import { SectionHeader } from "./SectionHeader";
 import { CHART, BRAND, FLAVOR_COLORS } from "@/lib/redesign/theme";
+import { median } from "@/lib/percentile";
 
 const TIMING_COLORS = [BRAND.greenDeep, BRAND.green, "#A9E4C7"];
 const STOP_COLORS = [BRAND.green, BRAND.greenLight, "#FF8A65", "#ADBDCC"];
+
+function MedianPill({ x, y, label }: { x?: number; y?: number; label: string }) {
+  const px = x ?? 0;
+  const py = y ?? 0;
+  const w = label.length * 6.5 + 16;
+  return (
+    <g transform={`translate(${px}, ${py - 12})`}>
+      <rect x={-w / 2} y={-16} width={w} height={18} rx={9} fill={BRAND.green} />
+      <text x={0} y={-3} textAnchor="middle" fontSize={10} fontWeight={500} fill="white" letterSpacing="0.04em">
+        {label}
+      </text>
+    </g>
+  );
+}
 
 function SWRHistogram({ rows, visitorSWR }: { rows: SurveyResponse[]; visitorSWR?: number | null }) {
   const buckets: Record<string, number> = {};
@@ -33,33 +48,49 @@ function SWRHistogram({ rows, visitorSWR }: { rows: SurveyResponse[]; visitorSWR
     .map(([swr, count]) => ({ swr: parseFloat(swr), swrLabel: `${swr}%`, count }))
     .sort((a, b) => a.swr - b.swr);
 
+  const swrVals = rows.map((r) => r.target_swr).filter((v): v is number => v !== null && v >= 1 && v <= 5.5);
+  const medSWR = swrVals.length ? median(swrVals) : null;
+  const medBin = medSWR !== null ? `${(Math.round(medSWR * 2) / 2).toFixed(1)}%` : null;
+
   const visitorBucket = visitorSWR
     ? (Math.round(Math.max(1, Math.min(5.5, visitorSWR)) * 2) / 2).toFixed(1)
     : null;
 
   return (
     <ResponsiveContainer width="100%" height={190}>
-      <BarChart data={data} margin={{ top: 20, right: 8, left: -10, bottom: 0 }}>
+      <BarChart data={data} margin={{ top: 28, right: 8, left: -10, bottom: 0 }}>
         <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
         <XAxis
           dataKey="swrLabel"
-          tick={{ fontSize: 11, fill: CHART.axisLabel }}
+          tick={{ fontSize: 12, fill: CHART.axisLabel }}
           axisLine={false}
           tickLine={false}
           interval={1}
         />
-        <YAxis tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} width={28} />
+        <YAxis tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} width={28} />
         <Tooltip
           formatter={(v) => [v, "respondents"]}
           contentStyle={{ fontSize: 12, borderColor: CHART.tooltipBorder, borderRadius: 8 }}
         />
         <Bar dataKey="count" fill={BRAND.green} radius={[3, 3, 0, 0]} />
+        {medBin && (
+          <ReferenceLine
+            x={medBin}
+            stroke={BRAND.green}
+            strokeWidth={1.5}
+            strokeDasharray="3 3"
+            ifOverflow="extendDomain"
+            label={({ viewBox }) => (
+              <MedianPill x={(viewBox as { x?: number })?.x} y={(viewBox as { y?: number })?.y} label={`MEDIAN ${medSWR?.toFixed(1)}%`} />
+            )}
+          />
+        )}
         <ReferenceLine
           x="4.0%"
           stroke="#FF8A65"
           strokeWidth={2}
           strokeDasharray="4 2"
-          label={{ value: "4% rule", position: "top", fontSize: 9, fill: "#C75032", fontWeight: 700 }}
+          label={{ value: "4% rule", position: "insideTopRight", fontSize: 9, fill: "#C75032", fontWeight: 700 }}
         />
         {visitorBucket && (
           <ReferenceLine

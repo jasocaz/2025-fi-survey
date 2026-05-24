@@ -100,6 +100,16 @@ export function IncomeExpensesSection({
     return { bracket, rate: medianOf(rates) };
   }).filter((d) => d.rate !== null);
 
+  const allSavingsRates = rows
+    .map((r) => {
+      const inc = r.income.total;
+      const exp = r.expenses.total;
+      if (!inc || !exp || inc <= 0) return null;
+      return ((inc - exp) / inc) * 100;
+    })
+    .filter((v): v is number => v !== null && v >= -100 && v <= 100);
+  const medSavingsRate = medianOf(allSavingsRates);
+
   const expData = expGroupBy === "age" ? expByAge : expByFI;
   const moduleClass = "bg-white border border-[var(--slate-050)] rounded-xl p-6";
 
@@ -199,10 +209,10 @@ export function IncomeExpensesSection({
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={savingsRateByAge} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-              <XAxis dataKey="bracket" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="bracket" tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <YAxis
                 tickFormatter={(v) => `${v.toFixed(0)}%`}
-                tick={{ fontSize: 11, fill: CHART.axisLabel }}
+                tick={{ fontSize: 12, fill: CHART.axisLabel }}
                 axisLine={false}
                 tickLine={false}
               />
@@ -212,6 +222,27 @@ export function IncomeExpensesSection({
               />
               <ReferenceLine y={0} stroke={CHART.refLineMuted} />
               <Bar dataKey="rate" fill={BRAND.green} radius={[3, 3, 0, 0]} maxBarSize={40} />
+              {medSavingsRate !== null && (
+                <ReferenceLine
+                  y={medSavingsRate}
+                  stroke={BRAND.green}
+                  strokeWidth={1.5}
+                  strokeDasharray="3 3"
+                  label={({ viewBox }) => {
+                    const { x = 0, y = 0 } = (viewBox as { x?: number; y?: number }) ?? {};
+                    const label = `MED ${medSavingsRate.toFixed(0)}%`;
+                    const w = label.length * 6.5 + 16;
+                    return (
+                      <g transform={`translate(${x + 4}, ${y})`}>
+                        <rect x={0} y={-9} width={w} height={18} rx={9} fill={BRAND.green} />
+                        <text x={w / 2} y={4} textAnchor="middle" fontSize={10} fontWeight={500} fill="white" letterSpacing="0.04em">
+                          {label}
+                        </text>
+                      </g>
+                    );
+                  }}
+                />
+              )}
             </BarChart>
           </ResponsiveContainer>
         </div>
