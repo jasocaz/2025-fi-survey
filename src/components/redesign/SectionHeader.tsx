@@ -22,7 +22,7 @@ export function SectionHeader({ number, eyebrow, title, lede, className }: Props
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-[200px_1fr] gap-2 md:gap-16 md:items-end mb-10",
+        "grid grid-cols-1 md:grid-cols-[280px_1fr] gap-2 md:gap-16 md:items-end mb-10",
         className,
       )}
     >

@@ -12,6 +12,7 @@ import { IncomeExpensesSection } from "@/components/redesign/IncomeExpensesSecti
 import { MacroMoodSection } from "@/components/redesign/MacroMoodSection";
 import { AlreadyFISection } from "@/components/redesign/AlreadyFISection";
 import { MethodologySection } from "@/components/redesign/MethodologySection";
+import { TopNav } from "@/components/redesign/TopNav";
 import { useVisitorProfile } from "@/hooks/useVisitorProfile";
 import { applyFilters, paramsToFilters } from "@/lib/filters";
 import type { SurveyResponse, Precomputed } from "@/lib/types";
@@ -29,6 +30,7 @@ export default function SurveyRedesignPage() {
 
   return (
     <>
+      <TopNav />
       <FilterBar count={filteredRows.length} total={allRows.length} />
       <main id="top">
         <HeroSection rows={filteredRows} precomputed={pc} />
