@@ -194,7 +194,7 @@ export function NetWorthSection({
   return (
     <section data-section id="networth">
       <SectionHeader
-        number="04"
+        number="03"
         eyebrow="Where they stand"
         title={`Half the community sits above ${medNWFmt} in net worth.`}
         lede={
