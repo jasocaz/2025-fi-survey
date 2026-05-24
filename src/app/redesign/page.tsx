@@ -9,14 +9,12 @@ import { NetWorthSection } from "@/components/redesign/NetWorthSection";
 import { FIPlanSection } from "@/components/redesign/FIPlanSection";
 import { IncomeExpensesSection } from "@/components/redesign/IncomeExpensesSection";
 import { AllocationSection } from "@/components/redesign/AllocationSection";
-import { WithdrawalPlansSection } from "@/components/redesign/WithdrawalPlansSection";
 import { YearsToFISection } from "@/components/redesign/YearsToFISection";
 import { AlreadyFISection } from "@/components/redesign/AlreadyFISection";
 import { NotableFindingsSection } from "@/components/redesign/NotableFindingsSection";
 import { MethodologySection } from "@/components/redesign/MethodologySection";
 import { CompareSection } from "@/components/redesign/CompareSection";
 import { MacroMoodSection } from "@/components/redesign/MacroMoodSection";
-import { TopNav } from "@/components/redesign/TopNav";
 import { useVisitorProfile } from "@/hooks/useVisitorProfile";
 import { applyFilters, paramsToFilters } from "@/lib/filters";
 import type { SurveyResponse, Precomputed } from "@/lib/types";
@@ -34,7 +32,6 @@ export default function SurveyRedesignPage() {
 
   return (
     <>
-      <TopNav />
       <FilterBar count={filteredRows.length} total={allRows.length} />
       <main id="top">
         {/* 01 Hero */}
@@ -71,19 +68,16 @@ export default function SurveyRedesignPage() {
         {/* 06 Allocation */}
         <AllocationSection rows={filteredRows} />
 
-        {/* 07 Withdrawal plans */}
-        <WithdrawalPlansSection rows={filteredRows} />
-
-        {/* 08 Years to FI */}
+        {/* 07 Years to FI */}
         <YearsToFISection rows={filteredRows} />
 
-        {/* 09 Already FI cohort */}
+        {/* 08 Already FI cohort */}
         <AlreadyFISection rows={filteredRows} />
 
-        {/* 10 Notable findings */}
+        {/* 09 Notable findings */}
         <NotableFindingsSection rows={filteredRows} />
 
-        {/* 11 Methodology */}
+        {/* 10 Methodology */}
         <MethodologySection total={pc.total} completed={pc.completed} />
 
         {/* 12 Compare (kept, restyled via scoped CSS) */}

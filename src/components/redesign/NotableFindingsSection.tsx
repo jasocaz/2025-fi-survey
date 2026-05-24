@@ -56,7 +56,7 @@ export function NotableFindingsSection({ rows }: { rows: SurveyResponse[] }) {
   return (
     <section data-section id="findings">
       <SectionHeader
-        number="10"
+        number="09"
         eyebrow="Notable findings"
         title="Five numbers that stood out."
         lede={

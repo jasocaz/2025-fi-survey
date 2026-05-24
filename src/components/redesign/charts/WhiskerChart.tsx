@@ -17,6 +17,7 @@ interface Props {
   visitorValue?: number | null;
   visitorBracket?: string | null;
   logScale?: boolean;
+  compact?: boolean;
 }
 
 const LOG_TICKS = [1000, 5000, 10000, 50000, 100000, 250000, 500000, 1000000, 2000000, 5000000, 10000000];
@@ -27,7 +28,7 @@ function formatTick(v: number) {
   return `$${v}`;
 }
 
-export function WhiskerChart({ data, visitorValue, visitorBracket, logScale = true }: Props) {
+export function WhiskerChart({ data, visitorValue, visitorBracket, logScale = true, compact = false }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(640);
   const [hovered, setHovered] = useState<BoxDatum | null>(null);
@@ -41,15 +42,20 @@ export function WhiskerChart({ data, visitorValue, visitorBracket, logScale = tr
     return () => ro.disconnect();
   }, []);
 
-  const margin = { top: 24, right: 20, left: 60, bottom: 28 };
-  const svgH = 280;
+  const margin = compact
+    ? { top: 18, right: 8, left: 44, bottom: 22 }
+    : { top: 24, right: 20, left: 60, bottom: 28 };
+  const svgH = compact ? 180 : 280;
   const plotW = width - margin.left - margin.right;
   const plotH = svgH - margin.top - margin.bottom;
 
   const valid = data.filter((d) => d.count > 0 && d.p50 != null && d.p50 > 0);
   if (!valid.length)
     return (
-      <div className="h-[280px] flex items-center justify-center text-sm text-slate-400">
+      <div
+        className="flex items-center justify-center text-sm text-slate-400"
+        style={{ height: svgH }}
+      >
         No data
       </div>
     );

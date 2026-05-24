@@ -6,7 +6,7 @@ import { percentileValue, median, formatDollar } from "@/lib/percentile";
 import { AGE_BRACKETS } from "@/lib/types";
 import type { SurveyResponse, Precomputed } from "@/lib/types";
 import { SectionHeader } from "./SectionHeader";
-import { CHART, BRAND, ASSET_COLORS, DEBT_COLORS, SLATE } from "@/lib/redesign/theme";
+import { CHART, BRAND, ASSET_COLORS, SLATE } from "@/lib/redesign/theme";
 
 function pct(sorted: number[], p: number) {
   return sorted.length ? percentileValue(sorted, p) : null;
@@ -115,22 +115,6 @@ function getAssetPieces(subset: SurveyResponse[]) {
   ];
 }
 
-function getDebtPieces(subset: SurveyResponse[]) {
-  const withDebt = subset.filter((r) => r.debts.total !== null && r.debts.total > 0);
-  const sum = (getter: (r: SurveyResponse) => number | null) =>
-    withDebt.map(getter).filter((v): v is number => v !== null && v > 0).reduce((a, b) => a + b, 0);
-  const totals = {
-    Mortgage: sum((r) => r.debts.mortgage),
-    "Student loans": sum((r) => r.debts.student),
-    Auto: sum((r) => r.debts.auto),
-    "Credit cards": sum((r) => r.debts.cards),
-    Medical: sum((r) => r.debts.medical),
-    Other: sum((r) => r.debts.other),
-  };
-  const grandTotal = Object.values(totals).reduce((a, b) => a + b, 0) || 1;
-  return Object.entries(totals).map(([name, val]) => ({ name, value: Math.round((val / grandTotal) * 100) }));
-}
-
 export function NetWorthSection({
   rows,
   visitorNW,
@@ -190,6 +174,26 @@ export function NetWorthSection({
 
   const allPctToFI = rows.map((r) => r.pct_to_fi).filter((v): v is number => v !== null);
   const medPctToFI = allPctToFI.length ? median(allPctToFI) : null;
+
+  // Debt picture (used in Module 3 insight card)
+  const debtorRows = rows.filter((r) => r.debts.total !== null && r.debts.total > 0);
+  const debtorsCount = debtorRows.length;
+  const debtPctNoDebt = rows.length > 0
+    ? Math.round(((rows.length - debtorsCount) / rows.length) * 100)
+    : 0;
+  const debtVals = debtorRows.map((r) => r.debts.total as number).sort((a, b) => a - b);
+  const medDebt = debtVals.length ? debtVals[Math.floor(debtVals.length / 2)] : null;
+  const sumDebt = (key: keyof typeof debtorRows[0]["debts"]) =>
+    debtorRows.reduce((acc, r) => acc + ((r.debts[key] as number | null) ?? 0), 0);
+  const totalMortgage = sumDebt("mortgage");
+  const totalAllDebt =
+    totalMortgage +
+    sumDebt("student") +
+    sumDebt("auto") +
+    sumDebt("cards") +
+    sumDebt("medical") +
+    sumDebt("other");
+  const mortgageShareOfDebt = totalAllDebt > 0 ? totalMortgage / totalAllDebt : 0;
 
   return (
     <section data-section id="networth">
@@ -350,8 +354,8 @@ export function NetWorthSection({
         <WhiskerChart data={nwData} logScale={logScale} visitorValue={visitorNW} visitorBracket={visitorAgeBracket} />
       </div>
 
-      {/* Module 2: Asset composition + % to FI by age */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      {/* Module 2: Asset composition + % to FI by age + Debt by age */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="bg-white border border-[var(--slate-050)] rounded-xl p-6">
           <AgePieSelector title="Asset composition" rows={rows} getPieces={getAssetPieces} colors={ASSET_COLORS} />
         </div>
@@ -399,22 +403,66 @@ export function NetWorthSection({
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </div>
 
-      {/* Module 3: Debt whisker + composition */}
-      <div className="bg-white border border-[var(--slate-050)] rounded-xl p-6">
-        <h3 className="text-[13px] font-medium text-foreground mb-1">Debt by age</h3>
-        <p className="text-[12px] text-[var(--slate-400)] mb-5">
-          Among households reporting any debt · linear scale.
-        </p>
-        <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-8 items-start">
+        {/* Debt by age (compact whisker) */}
+        <div className="bg-white border border-[var(--slate-050)] rounded-xl p-6">
+          <h3 className="text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--slate-500)] mb-1">
+            Debt by age
+          </h3>
+          <p className="text-[11px] text-[var(--slate-400)] mb-3">
+            Among debtors · median + p25–75 band.
+          </p>
           <WhiskerChart
             data={debtData}
             logScale={false}
             visitorValue={visitorDebt}
             visitorBracket={visitorAgeBracket}
+            compact
           />
-          <AgePieSelector title="Debt composition" rows={rows} getPieces={getDebtPieces} colors={DEBT_COLORS} />
+        </div>
+      </div>
+
+      {/* Module 3: Debt insight text card */}
+      <div
+        className="rounded-xl p-7"
+        style={{
+          background: "var(--slate-025)",
+          border: "1px solid var(--slate-050)",
+        }}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-6 items-start">
+          <div>
+            <div className="eyebrow" style={{ marginBottom: 8 }}>The debt picture</div>
+            <div
+              className="numerics"
+              style={{
+                fontSize: "clamp(40px, 4vw, 56px)",
+                fontWeight: 300,
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+                color: "var(--navy)",
+              }}
+            >
+              {debtPctNoDebt}<span style={{ fontSize: "0.4em", color: "var(--slate-400)", marginLeft: 4 }}>%</span>
+            </div>
+            <div style={{ fontSize: 12, color: "var(--slate-500)", marginTop: 6 }}>
+              report no household debt
+            </div>
+          </div>
+          <p style={{ fontSize: 15, lineHeight: 1.6, color: "var(--slate-700)", margin: 0 }}>
+            For the {Math.round((debtorsCount / rows.length) * 100)}% who do carry debt, it&apos;s
+            overwhelmingly a mortgage —{" "}
+            <strong style={{ color: "var(--navy)", fontWeight: 500 }}>
+              {Math.round(mortgageShareOfDebt * 100)}% of all reported debt is mortgage
+            </strong>
+            , and roughly half of debtors hold no consumer debt at all (no student loans, auto,
+            or credit cards). Among debtors, the median outstanding balance is{" "}
+            <strong style={{ color: "var(--navy)", fontWeight: 500 }}>
+              {medDebt ? formatDollar(medDebt, true) : "—"}
+            </strong>
+            . Read together with net worth: this community isn&apos;t debt-averse, it&apos;s
+            consumer-debt-averse.
+          </p>
         </div>
       </div>
     </section>

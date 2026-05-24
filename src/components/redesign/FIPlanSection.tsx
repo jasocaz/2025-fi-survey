@@ -11,7 +11,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   ReferenceLine,
-  Legend,
 } from "recharts";
 import type { SurveyResponse } from "@/lib/types";
 import { FI_FLAVORS } from "@/lib/types";
@@ -58,7 +57,7 @@ function SWRHistogram({ rows, visitorSWR }: { rows: SurveyResponse[]; visitorSWR
 
   return (
     <ResponsiveContainer width="100%" height={190}>
-      <BarChart data={data} margin={{ top: 28, right: 8, left: -10, bottom: 0 }}>
+      <BarChart data={data} margin={{ top: 28, right: 8, left: 4, bottom: 0 }}>
         <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
         <XAxis
           dataKey="swrLabel"
@@ -67,7 +66,7 @@ function SWRHistogram({ rows, visitorSWR }: { rows: SurveyResponse[]; visitorSWR
           tickLine={false}
           interval={1}
         />
-        <YAxis tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} width={28} />
+        <YAxis tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} width={40} />
         <Tooltip
           formatter={(v) => [v, "respondents"]}
           contentStyle={{ fontSize: 12, borderColor: CHART.tooltipBorder, borderRadius: 8 }}
@@ -107,10 +106,10 @@ function SWRHistogram({ rows, visitorSWR }: { rows: SurveyResponse[]; visitorSWR
 
 function SupplementChart({ rows }: { rows: SurveyResponse[] }) {
   const sources = [
-    { label: "Social Security", key: "supp_gov" as const },
-    { label: "Inheritance", key: "supp_inheritance" as const },
-    { label: "Employer pension", key: "supp_pension" as const },
-    { label: "Rental income", key: "supp_rental" as const },
+    { label: "Social Sec.", key: "supp_gov" as const },
+    { label: "Inherit.", key: "supp_inheritance" as const },
+    { label: "Pension", key: "supp_pension" as const },
+    { label: "Rental", key: "supp_rental" as const },
   ];
   const timings = [
     "Prior to retirement",
@@ -119,34 +118,37 @@ function SupplementChart({ rows }: { rows: SurveyResponse[] }) {
   ] as const;
 
   const data = sources.map(({ label, key }) => {
-    const counts: Record<string, number> = {};
+    const counts: Record<string, number> = { Prior: 0, Immediately: 0, After: 0 };
     rows.forEach((r) => {
       const v = r[key];
       if (!v || v === "N/A") return;
-      if (v.includes("Prior")) counts["Prior"] = (counts["Prior"] ?? 0) + 1;
-      if (v.includes("Immediately")) counts["Immediately"] = (counts["Immediately"] ?? 0) + 1;
-      if (v.includes("At some point")) counts["After"] = (counts["After"] ?? 0) + 1;
+      if (v.includes("Prior")) counts.Prior += 1;
+      if (v.includes("Immediately")) counts.Immediately += 1;
+      if (v.includes("At some point")) counts.After += 1;
     });
     return { label, ...counts };
   });
 
   return (
-    <ResponsiveContainer width="100%" height={180}>
-      <BarChart data={data} layout="vertical" margin={{ top: 0, right: 20, left: 100, bottom: 0 }}>
-        <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} horizontal={false} />
-        <XAxis type="number" domain={[0, 'dataMax']} tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
-        <YAxis
-          type="category"
+    <ResponsiveContainer width="100%" height={190}>
+      <BarChart data={data} margin={{ top: 0, right: 4, left: -20, bottom: 0 }}>
+        <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
+        <XAxis
           dataKey="label"
-          tick={{ fontSize: 12, fill: CHART.axisTitle }}
+          tick={{ fontSize: 10, fill: CHART.axisLabel }}
           axisLine={false}
           tickLine={false}
-          width={100}
         />
-        <Tooltip contentStyle={{ fontSize: 12, borderColor: CHART.tooltipBorder, borderRadius: 8 }} />
-        <Legend wrapperStyle={{ fontSize: 11 }} />
-        {["Prior", "Immediately", "After"].map((t, i) => (
-          <Bar key={t} dataKey={t} name={timings[i]} stackId="a" fill={TIMING_COLORS[i]} maxBarSize={24} />
+        <YAxis tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+        <Tooltip
+          contentStyle={{ fontSize: 11, borderColor: CHART.tooltipBorder, borderRadius: 8 }}
+          formatter={(v, name) => {
+            const i = name === "Prior" ? 0 : name === "Immediately" ? 1 : 2;
+            return [v, timings[i]];
+          }}
+        />
+        {(["Prior", "Immediately", "After"] as const).map((t, i) => (
+          <Bar key={t} dataKey={t} stackId="a" fill={TIMING_COLORS[i]} maxBarSize={36} />
         ))}
       </BarChart>
     </ResponsiveContainer>
@@ -218,7 +220,8 @@ export function FIPlanSection({
           lede={
             <>
               Most respondents are pursuing standard FI; ChubbyFI is the largest stretch goal. The
-              4% rule is referenced often but applied conservatively — the cluster sits at 3–3.5%.
+              community largely anchors to the 4% rule, with a sizable conservative cluster
+              targeting 3–3.5%.
             </>
           }
         />
@@ -240,7 +243,8 @@ export function FIPlanSection({
                 </div>
               </div>
               <p className="text-sm text-white/75 mt-6 leading-[1.55]">
-                This community targets a conservative withdrawal rate — well below the commonly cited 4% rule.
+                The median plan lands right at the 4% rule, but the distribution&apos;s second
+                peak sits at 3–3.5%, reflecting awareness of sequence-of-returns risk.
               </p>
               <div className="mt-6 pt-5 border-t border-white/15">
                 <div className="text-[11px] uppercase tracking-[0.08em] text-white/55 mb-1">Median FI target</div>
@@ -251,7 +255,7 @@ export function FIPlanSection({
               <h3 className="text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--slate-500)] mb-1">
                 Target safe withdrawal rate
               </h3>
-              <p className="text-[11px] text-[var(--slate-400)] mb-2">Cluster sits below the 4% rule.</p>
+              <p className="text-[11px] text-[var(--slate-400)] mb-2">Mode at 4%, with a conservative secondary cluster at 3.0–3.5%.</p>
               <SWRHistogram rows={rows} visitorSWR={visitorSWR} />
             </div>
           </div>
@@ -351,16 +355,28 @@ export function FIPlanSection({
             </ResponsiveContainer>
           </div>
 
-        </div>
-
-        {/* Supplement plan — full width module */}
-        <div className={moduleClass}>
-          <h3 className="text-[13px] font-medium text-foreground mb-1">What&apos;s the supplement plan?</h3>
-          <p className="text-[12px] text-[var(--slate-400)] mb-4">
-            ~30% expect an inheritance at some point. Social Security is expected by the majority,
-            but mostly &ldquo;eventually.&rdquo;
-          </p>
-          <SupplementChart rows={rows} />
+          {/* 4. Supplement plan (vertical) */}
+          <div className={moduleClass}>
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--slate-500)] mb-1">
+              Supplement plan
+            </h3>
+            <p className="text-[11px] text-[var(--slate-400)] mb-3">
+              Social Security expected by most, mostly “eventually.”
+            </p>
+            <SupplementChart rows={rows} />
+            <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-[10px] text-[var(--slate-500)]">
+              {[
+                { c: TIMING_COLORS[0], l: "Prior" },
+                { c: TIMING_COLORS[1], l: "Immediate" },
+                { c: TIMING_COLORS[2], l: "Later" },
+              ].map((s) => (
+                <span key={s.l} className="inline-flex items-center gap-1.5">
+                  <span style={{ width: 8, height: 8, borderRadius: 2, background: s.c, display: "inline-block" }} />
+                  {s.l}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

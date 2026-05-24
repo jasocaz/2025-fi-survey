@@ -96,7 +96,7 @@ export function YearsToFISection({ rows }: { rows: SurveyResponse[] }) {
   return (
     <section data-section id="years-to-fi">
       <SectionHeader
-        number="08"
+        number="07"
         eyebrow="The road ahead"
         title={
           medYears !== null

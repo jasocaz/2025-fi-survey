@@ -71,8 +71,8 @@ const STEPS = [
     body: "Dozens of questions across demographics, balance sheet, income, expenses, allocation, and outlook.",
   },
   {
-    title: "Cleaned",
-    body: "Partial completions and internally contradictory submissions were filtered before analysis.",
+    title: "Normalized",
+    body: "Non-USD amounts converted at fixed reference rates; three free-text columns dropped; both completed and partial submissions retained.",
   },
   {
     title: "Analyzed",

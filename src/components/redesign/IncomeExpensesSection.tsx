@@ -33,14 +33,20 @@ export function IncomeExpensesSection({
   visitorIncome?: number | null;
   visitorExpenses?: number | null;
 }) {
+  // Savings rate: the survey lets respondents categorize their savings as
+  // "Tax-adv inv." or "Savings" inside their expense breakdown, which means
+  // expenses.total often equals income.total. To get a true savings rate we
+  // back those two categories out of expenses before differencing.
   const allSavingsRates = rows
     .map((r) => {
       const inc = r.income.total;
       const exp = r.expenses.total;
-      if (!inc || !exp || inc <= 0) return null;
-      return ((inc - exp) / inc) * 100;
+      if (!inc || inc <= 0 || exp === null) return null;
+      const savingsInExp = (r.expenses.tax_adv_inv ?? 0) + (r.expenses.non_tax_adv_sav ?? 0);
+      const trueSpending = exp - savingsInExp;
+      return ((inc - trueSpending) / inc) * 100;
     })
-    .filter((v): v is number => v !== null && v >= -100 && v <= 100);
+    .filter((v): v is number => v !== null && v >= -50 && v <= 100);
   const medSavingsRate = medianOf(allSavingsRates);
 
   const moduleClass = "bg-white border border-[var(--slate-050)] rounded-xl p-6";

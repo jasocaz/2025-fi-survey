@@ -42,7 +42,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
   return (
     <section data-section id="already-fi">
       <SectionHeader
-        number="09"
+        number="08"
         eyebrow="The cohort"
         title={`${pctFI}% of the community has already arrived.`}
         lede={
