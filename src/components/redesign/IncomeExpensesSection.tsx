@@ -151,10 +151,10 @@ export function IncomeExpensesSection({
         <ResponsiveContainer width="100%" height={290}>
           <BarChart data={expData} margin={{ top: 5, right: 20, left: 60, bottom: 0 }}>
             <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-            <XAxis dataKey="bracket" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+            <XAxis dataKey="bracket" tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
             <YAxis
               tickFormatter={(v) => formatDollar(v, true)}
-              tick={{ fontSize: 11, fill: CHART.axisLabel }}
+              tick={{ fontSize: 12, fill: CHART.axisLabel }}
               axisLine={false}
               tickLine={false}
               width={58}
@@ -181,10 +181,10 @@ export function IncomeExpensesSection({
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={incByFI} margin={{ top: 5, right: 10, left: 50, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-              <XAxis dataKey="bracket" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="bracket" tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <YAxis
                 tickFormatter={(v) => formatDollar(v, true)}
-                tick={{ fontSize: 11, fill: CHART.axisLabel }}
+                tick={{ fontSize: 12, fill: CHART.axisLabel }}
                 axisLine={false}
                 tickLine={false}
                 width={50}

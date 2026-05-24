@@ -36,10 +36,10 @@ export const SLATE = {
 
 /** Chart-specific tokens — paired with chart parts (gridlines, axis labels). */
 export const CHART = {
-  axisLabel: SLATE[300],
-  axisTitle: SLATE[400],
+  axisLabel: SLATE[400],
+  axisTitle: SLATE[600],
   gridline: SLATE["050"],
-  gridlineDashed: "3 4",
+  gridlineDashed: "2 4",
   refLineMuted: SLATE[200],
   /** Default bar fill — single-series ranked / histogram bars. */
   primary: BRAND.green,

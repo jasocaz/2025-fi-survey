@@ -141,8 +141,8 @@ export function WhoRespondedSection({ rows }: { rows: SurveyResponse[] }) {
           <ResponsiveContainer width="100%" height={160}>
             <BarChart data={ageData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-              <XAxis dataKey="bracket" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="bracket" tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <Tooltip
                 formatter={(v) => [v, "respondents"]}
                 contentStyle={{ fontSize: 12, borderColor: CHART.tooltipBorder, borderRadius: 8 }}
@@ -170,7 +170,7 @@ export function WhoRespondedSection({ rows }: { rows: SurveyResponse[] }) {
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={industryData} layout="vertical" margin={{ top: 0, right: 20, left: 80, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} horizontal={false} />
-              <XAxis type="number" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis type="number" tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <YAxis
                 type="category"
                 dataKey="name"

@@ -115,7 +115,7 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
               <XAxis
                 type="number"
                 tickFormatter={(v) => `${Math.abs(v)}%`}
-                tick={{ fontSize: 11, fill: CHART.axisLabel }}
+                tick={{ fontSize: 12, fill: CHART.axisLabel }}
                 axisLine={false}
                 tickLine={false}
                 domain={[-15, 60]}
