@@ -42,3 +42,7 @@ next-env.d.ts
 
 # raw survey data (do not commit)
 /data/raw/
+
+# scratch/source-of-truth folder for the /redesign report; the actual files
+# live under src/{app,components,lib}/redesign/ after being applied.
+/redesign-package/

@@ -1,0 +1,117 @@
+/* =========================================================================
+   Redesign — scoped design tokens for /redesign route only.
+
+   These variables override the project's global shadcn tokens, but only
+   inside <div data-theme="redesign">. Original "/" route is untouched.
+   ========================================================================= */
+
+[data-theme="redesign"] {
+  /* Brand emerald */
+  --brand: #0e9f6e;
+  --brand-dark: #0a8657;
+  --brand-light: #3ddb9a;
+  --brand-soft: #e6f7f0;
+  --brand-deep: #04432d;
+
+  /* Navy used for primary text */
+  --navy: #0a2540;
+  --navy-deep: #011936;
+
+  /* Cool slate scale */
+  --slate-025: #f6f9fc;
+  --slate-050: #e3e8ee;
+  --slate-100: #c1ccdd;
+  --slate-200: #adbdcc;
+  --slate-300: #8898aa;
+  --slate-400: #6b7c93;
+  --slate-500: #525f7f;
+  --slate-600: #425466;
+  --slate-700: #2a3a55;
+  --slate-800: #1a2c42;
+  --slate-900: #0a2540;
+
+  /* ===== Override shadcn tokens within the redesign scope.
+     Tailwind utilities (bg-primary, text-foreground, border-border…)
+     compile to `var(--*)`, so overriding the variable here is enough. */
+  --background: #ffffff;
+  --foreground: var(--navy);
+  --card: #ffffff;
+  --card-foreground: var(--navy);
+  --popover: #ffffff;
+  --popover-foreground: var(--navy);
+  --primary: var(--brand);
+  --primary-foreground: #ffffff;
+  --secondary: var(--slate-025);
+  --secondary-foreground: var(--navy);
+  --muted: var(--slate-025);
+  --muted-foreground: var(--slate-600);
+  --accent: var(--brand-soft);
+  --accent-foreground: var(--brand-dark);
+  --destructive: #df1b41;
+  --border: var(--slate-050);
+  --input: var(--slate-050);
+  --ring: var(--brand);
+
+  /* Gradients */
+  --gradient-mesh:
+    radial-gradient(58% 75% at 82% 8%, rgba(255, 222, 0, 0.32), transparent 60%),
+    radial-gradient(60% 80% at 8% 92%, rgba(17, 239, 227, 0.34), transparent 60%),
+    linear-gradient(135deg, #0e9f6e 0%, #0a8657 45%, #04432d 100%);
+  --gradient-navy: linear-gradient(180deg, #0a2540 0%, #011936 100%);
+  --gradient-brand-deep: linear-gradient(135deg, #0e9f6e 0%, #04432d 100%);
+
+  /* Page surface */
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "ss01", "cv01";
+}
+
+/* Generous, balanced text inside the redesign scope. */
+[data-theme="redesign"] h1,
+[data-theme="redesign"] h2,
+[data-theme="redesign"] h3 {
+  text-wrap: balance;
+}
+[data-theme="redesign"] p {
+  text-wrap: pretty;
+}
+
+/* Eyebrow utility — uppercased, tracked, brand color. */
+[data-theme="redesign"] .eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--brand);
+}
+
+/* Section spine — used by every <section data-section>. */
+[data-theme="redesign"] section[data-section] {
+  max-width: 80rem; /* matches max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3.5rem 1.5rem;
+  border-top: 1px solid var(--slate-050);
+}
+[data-theme="redesign"] section[data-section]:first-of-type {
+  border-top: 0;
+}
+[data-theme="redesign"] section[data-section][data-alt="true"] {
+  background: var(--slate-025);
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+[data-theme="redesign"] section[data-section][data-alt="true"] > * {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Tabular figures everywhere numbers live. */
+[data-theme="redesign"] .numerics,
+[data-theme="redesign"] .font-mono {
+  font-variant-numeric: tabular-nums;
+}
