@@ -16,6 +16,7 @@ import { CrossTabsSection } from "@/components/redesign/CrossTabsSection";
 import { MethodologySection } from "@/components/redesign/MethodologySection";
 import { CompareSection } from "@/components/redesign/CompareSection";
 import { MacroMoodSection } from "@/components/redesign/MacroMoodSection";
+import { TipJarPopup } from "@/components/redesign/TipJarPopup";
 import { useVisitorProfile } from "@/hooks/useVisitorProfile";
 import { applyFilters, paramsToFilters } from "@/lib/filters";
 import type { SurveyResponse, Precomputed } from "@/lib/types";
@@ -141,6 +142,8 @@ export default function SurveyPage() {
           </div>
         </div>
       </footer>
+
+      <TipJarPopup />
     </div>
   );
 }
