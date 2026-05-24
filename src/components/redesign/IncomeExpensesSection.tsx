@@ -116,7 +116,7 @@ export function IncomeExpensesSection({
   return (
     <section data-section id="income-expenses">
       <SectionHeader
-        number="05"
+        number="06"
         eyebrow="How they live"
         title={medSavingsRate !== null ? `Year after year, this community saves ${medSavingsRate.toFixed(0)}% of its income.` : "Year after year, this community saves a lot of its income."}
         lede={

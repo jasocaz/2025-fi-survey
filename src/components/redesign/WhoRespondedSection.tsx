@@ -121,7 +121,7 @@ export function WhoRespondedSection({ rows }: { rows: SurveyResponse[] }) {
   return (
     <section data-section id="who">
       <SectionHeader
-        number="01"
+        number="02"
         eyebrow="Who responded"
         title="A skew that's worth saying out loud."
         lede={

@@ -213,7 +213,7 @@ export function FIPlanSection({
     <section data-section data-alt="true" id="fi-plan">
       <div>
         <SectionHeader
-          number="04"
+          number="05"
           eyebrow="Where they're going"
           title={`${medFIFmt} is the number the community is walking toward.`}
           lede={

@@ -77,7 +77,7 @@ export function CompareSection({ allRows, precomputed }: { allRows: SurveyRespon
     <section data-section data-alt="true" id="compare">
       <div>
         <SectionHeader
-          number="02"
+          number="03"
           eyebrow="Compare yourself"
           title="How do you compare to this community?"
           lede={

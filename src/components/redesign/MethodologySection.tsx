@@ -4,7 +4,7 @@ export function MethodologySection({ total, completed }: { total: number; comple
   return (
     <section data-section id="methodology">
       <SectionHeader
-        number="08"
+        number="09"
         eyebrow="Caveats"
         title="What this data is, and what it isn't."
         lede={

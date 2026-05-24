@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { FilterBar } from "@/components/redesign/FilterBar";
 import { HeroSection } from "@/components/redesign/HeroSection";
+import { MethodologySnapshotSection } from "@/components/redesign/MethodologySnapshotSection";
 import { CompareSection } from "@/components/redesign/CompareSection";
 import { WhoRespondedSection } from "@/components/redesign/WhoRespondedSection";
 import { NetWorthSection } from "@/components/redesign/NetWorthSection";
@@ -31,6 +32,7 @@ export default function SurveyRedesignPage() {
       <FilterBar count={filteredRows.length} total={allRows.length} />
       <main id="top">
         <HeroSection rows={filteredRows} precomputed={pc} />
+        <MethodologySnapshotSection precomputed={pc} />
         <WhoRespondedSection rows={filteredRows} />
         <CompareSection allRows={allRows} precomputed={pc} />
         <NetWorthSection

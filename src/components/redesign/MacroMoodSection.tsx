@@ -75,7 +75,7 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
     <section data-section data-alt="true" id="macro">
       <div>
         <SectionHeader
-          number="06"
+          number="07"
           eyebrow="The mood"
           title="Inflation and politics, in that order."
           lede={
