@@ -91,11 +91,8 @@ export default function SurveyRedesignPage() {
         className="text-white"
         style={{ background: "var(--gradient-navy)" }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <h3 className="text-[clamp(28px,3vw,40px)] font-medium leading-[1.1] tracking-[-0.02em] max-w-[22ch] mb-4">
-            An annual self-portrait of a community walking toward financial independence.
-          </h3>
-          <div className="flex flex-wrap gap-8 mt-10 pt-6 border-t border-white/12 text-[13px] text-white/60">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="flex flex-wrap gap-8 text-[13px] text-white/60">
             <a href="#top" className="hover:text-white transition-colors">Back to top</a>
             <a href="#methodology" className="hover:text-white transition-colors">Methodology</a>
             <a

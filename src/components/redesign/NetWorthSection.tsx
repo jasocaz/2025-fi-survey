@@ -364,9 +364,18 @@ export function NetWorthSection({
             % of FI target achieved, by age
           </h3>
           <ResponsiveContainer width="100%" height={160}>
-            <BarChart data={pctToFIData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+            <BarChart data={pctToFIData} margin={{ top: 10, right: 10, left: -10, bottom: 12 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-              <XAxis dataKey="bracket" tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis
+                dataKey="bracket"
+                tick={{ fontSize: 11, fill: CHART.axisLabel }}
+                axisLine={false}
+                tickLine={false}
+                angle={-35}
+                textAnchor="end"
+                height={42}
+                interval={0}
+              />
               <YAxis
                 tickFormatter={(v) => `${v}%`}
                 domain={[0, 100]}

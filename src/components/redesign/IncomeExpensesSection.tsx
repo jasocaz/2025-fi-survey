@@ -92,10 +92,10 @@ export function IncomeExpensesSection({
         <div className={moduleClass}>
           <h3 className="text-[13px] font-medium text-foreground mb-1">Savings rate distribution</h3>
           <p className="text-[12px] text-[var(--slate-400)] mb-4">
-            (income − expenses) / income · individual responses.
+            (income − consumption) / income · savings categorized inside expenses are excluded from consumption.
           </p>
           <ResponsiveContainer width="100%" height={260}>
-            <BarChart data={srHistData} margin={{ top: 24, right: 20, left: -10, bottom: 0 }}>
+            <BarChart data={srHistData} margin={{ top: 36, right: 20, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
               <XAxis dataKey="label" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
