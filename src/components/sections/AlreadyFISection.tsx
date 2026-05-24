@@ -40,14 +40,14 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
   ].filter((d) => d.value > 0);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10 border-t border-stone-100">
+    <section className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
       <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§07</p>
       <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-2">The already-FI cohort</h2>
       <p className="text-stone-500 mb-8 text-sm">
         {n} respondents say they&apos;re financially independent · {reRows.length} say they&apos;re retired.
       </p>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Card className="border-stone-200 shadow-none">
           <CardContent className="pt-5">
             <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 mb-2">Median NW (FI)</p>

@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import type { SurveyResponse } from "@/lib/types";
-import { percentileOf, yearsToFI } from "@/lib/percentile";
+import { percentileOf } from "@/lib/percentile";
 
 export interface VisitorProfile {
   age_bracket: string;
@@ -20,7 +20,6 @@ export interface VisitorResults {
   expenses_pct_global: number | null;
   debt_pct_global: number | null;
   savings_rate: number | null;
-  years_to_fi: number | null;
   peer_cohort: SurveyResponse[];
 }
 
@@ -105,10 +104,6 @@ export function useVisitorProfile(allRows: SurveyResponse[]) {
       expenses_pct_global: exp !== null ? percentileOf(allExp, exp) : null,
       debt_pct_global: debt !== null ? percentileOf(allDebt, debt) : null,
       savings_rate: savingsRate,
-      years_to_fi:
-        nw !== null && fin !== null && annualSavings !== null
-          ? yearsToFI(nw, fin, annualSavings)
-          : null,
       peer_cohort: peerCohort,
     };
   })();

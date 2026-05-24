@@ -100,9 +100,9 @@ export function WhoRespondedSection({ rows }: { rows: SurveyResponse[] }) {
   })();
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10 border-t border-stone-100">
-      <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§02</p>
-      <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-8">Who responded</h2>
+    <section className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
+      <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§01</p>
+      <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-6">Who responded</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Age */}

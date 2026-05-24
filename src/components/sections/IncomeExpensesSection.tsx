@@ -101,12 +101,12 @@ export function IncomeExpensesSection({ rows, visitorIncome, visitorExpenses }: 
   const expData = expGroupBy === "age" ? expByAge : expByFI;
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10 border-t border-stone-100">
+    <section className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
       <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§05</p>
-      <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-8">Income &amp; expenses</h2>
+      <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-6">Income &amp; expenses</h2>
 
       {/* Expense composition */}
-      <div className="mb-10">
+      <div className="mb-8">
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-sm font-semibold text-stone-700">Median expense composition</h3>
           <div className="flex gap-2">
@@ -136,7 +136,7 @@ export function IncomeExpensesSection({ rows, visitorIncome, visitorExpenses }: 
       </div>
 
       {/* Income by FI status */}
-      <div className="mb-10">
+      <div className="mb-8">
         <h3 className="text-sm font-semibold text-stone-700 mb-1">Income source by FI status</h3>
         <p className="text-xs text-stone-400 mb-3">
           Capital gains and dividends rise sharply once FI is reached — wages are replaced, not just reduced.

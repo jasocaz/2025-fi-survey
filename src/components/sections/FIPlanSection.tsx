@@ -19,8 +19,8 @@ function SWRHistogram({ rows, visitorSWR }: { rows: SurveyResponse[]; visitorSWR
   const buckets: Record<string, number> = {};
   rows.forEach((r) => {
     const v = r.target_swr;
-    if (!v || v <= 0 || v > 10) return;
-    const bucket = (Math.round(v * 4) / 4).toFixed(2);
+    if (!v || v < 1 || v > 5.5) return;
+    const bucket = (Math.round(v * 2) / 2).toFixed(1);
     buckets[bucket] = (buckets[bucket] ?? 0) + 1;
   });
   const data = Object.entries(buckets)
@@ -28,24 +28,25 @@ function SWRHistogram({ rows, visitorSWR }: { rows: SurveyResponse[]; visitorSWR
     .sort((a, b) => a.swr - b.swr);
 
   const visitorBucket = visitorSWR
-    ? (Math.round(visitorSWR * 4) / 4).toFixed(2)
+    ? (Math.round(Math.max(1, Math.min(5.5, visitorSWR)) * 2) / 2).toFixed(1)
     : null;
 
   return (
     <ResponsiveContainer width="100%" height={220}>
-      <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
+      <BarChart data={data} margin={{ top: 24, right: 20, left: 0, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#f0ede6" vertical={false} />
         <XAxis
           dataKey="swrLabel"
-          tick={{ fontSize: 10, fill: "#78716c" }}
+          tick={{ fontSize: 11, fill: "#78716c" }}
           axisLine={false}
           tickLine={false}
-          interval={3}
+          interval={1}
+          label={{ value: "target SWR (% of portfolio)", position: "insideBottom", offset: -4, fontSize: 10, fill: "#a8a29e" }}
         />
         <YAxis tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} />
         <Tooltip formatter={(v) => [v, "respondents"]} contentStyle={{ fontSize: 12, borderColor: "#e6e3d9" }} />
-        <Bar dataKey="count" fill="#0a7d4a" radius={[3, 3, 0, 0]} maxBarSize={20} />
-        <ReferenceLine x="4.00%" stroke="#c4503c" strokeWidth={2} strokeDasharray="4 2"
+        <Bar dataKey="count" fill="#0a7d4a" radius={[3, 3, 0, 0]} maxBarSize={40} />
+        <ReferenceLine x="4.0%" stroke="#c4503c" strokeWidth={2} strokeDasharray="4 2"
           label={{ value: "4% rule", position: "top", fontSize: 10, fill: "#c4503c", fontWeight: 700 }} />
         {visitorBucket && (
           <ReferenceLine x={`${visitorBucket}%`} stroke="#0a5530" strokeWidth={2}
@@ -122,11 +123,11 @@ export function FIPlanSection({ rows, visitorFINumber, visitorSWR }: {
   })();
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10 border-t border-stone-100">
+    <section className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
       <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§04</p>
-      <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-8">The FI plan</h2>
+      <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-6">The FI plan</h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Flavor donut */}
         <div>
           <h3 className="text-sm font-semibold text-stone-700 mb-4">FI flavor</h3>
@@ -189,8 +190,8 @@ export function FIPlanSection({ rows, visitorFINumber, visitorSWR }: {
       </div>
 
       {/* SWR histogram */}
-      <div className="mb-10">
-        <h3 className="text-sm font-semibold text-stone-700 mb-1">Target safe withdrawal rate</h3>
+      <div className="mb-8">
+        <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">Target safe withdrawal rate</p>
         <p className="text-xs text-stone-400 mb-3">
           The 4% rule (red line) remains dominant, but a notable cluster has shifted left toward 3–3.5%.
         </p>

@@ -1,6 +1,6 @@
 export function MethodologySection({ total, completed }: { total: number; completed: number }) {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10 border-t border-stone-100">
+    <section className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
       <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§08</p>
       <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-6">Methodology &amp; caveats</h2>
 

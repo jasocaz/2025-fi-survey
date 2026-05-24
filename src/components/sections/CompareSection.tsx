@@ -76,13 +76,14 @@ export function CompareSection({ allRows }: { allRows: SurveyResponse[] }) {
   };
 
   return (
-    <section id="compare" className="max-w-7xl mx-auto px-6 py-10 border-t border-stone-100">
+    <section id="compare" className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
+      <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§02</p>
       <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-1">
         How do you compare? (to this <em>community</em>)
       </h2>
 
       {/* Bias call-out */}
-      <div className="my-5 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+      <div className="my-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
         <p className="text-xs font-semibold tracking-widest text-amber-700 uppercase mb-1">
           Who actually answered this survey?
         </p>
@@ -242,30 +243,8 @@ export function CompareSection({ allRows }: { allRows: SurveyResponse[] }) {
             )}
           </div>
 
-          {/* Years to FI + Peer cohort */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Card className="border-stone-200 shadow-none">
-              <CardContent className="pt-4">
-                <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 mb-2">
-                  Rough years to FI
-                </p>
-                {results.years_to_fi !== null ? (
-                  <>
-                    <p className="text-4xl font-bold font-mono text-[#0a7d4a]">
-                      {results.years_to_fi}
-                      <span className="text-lg font-normal text-stone-400 ml-1">yrs</span>
-                    </p>
-                    <p className="text-xs text-stone-400 mt-2">
-                      at 7% real returns · income − expenses as annual savings
-                    </p>
-                    <p className="text-xs text-stone-400">Very rough — add expenses above to refine</p>
-                  </>
-                ) : (
-                  <p className="text-sm text-stone-400">Enter net worth, FI number, income, and expenses to estimate</p>
-                )}
-              </CardContent>
-            </Card>
-
+          {/* Peer cohort */}
+          <div>
             {peers.length > 0 ? (
               <Card className="border-stone-200 shadow-none">
                 <CardContent className="pt-4">
