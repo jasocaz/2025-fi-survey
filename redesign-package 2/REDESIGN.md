@@ -6,6 +6,12 @@ Next.js app. Your current `/` route is **not touched** — both reports coexist.
 > **Iterating on the visuals?** See `CLAUDE-CODE-HANDOFF.md` — it's a
 > step-by-step plan you can paste into Claude Code to close any remaining
 > visual gap against the static mock in `_mock-reference/`.
+>
+> **Reworking the filter header?** See `CLAUDE-CODE-FILTER-DRAWER.md` — a
+> focused handoff for swapping the current persistent filter strip for a
+> single sticky 56px bar + responsive drawer (right-side on desktop,
+> bottom-sheet on mobile). Reference implementation already in
+> `src/components/redesign/FilterBar.tsx`.
 
 ## What you're getting
 

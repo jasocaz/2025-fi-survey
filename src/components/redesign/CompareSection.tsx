@@ -88,38 +88,6 @@ export function CompareSection({ allRows, precomputed }: { allRows: SurveyRespon
           }
         />
 
-        {/* Bias call-out */}
-        <div
-          className="mb-8 p-5 rounded-xl border border-[var(--slate-050)] bg-white"
-        >
-          <p className="text-[11px] font-medium uppercase tracking-[0.10em] text-[var(--slate-500)] mb-2">
-            Who actually answered this survey?
-          </p>
-          <p className="text-sm text-[var(--slate-700)] mb-3 max-w-3xl">
-            When you compare your numbers, remember who you&apos;re comparing against. This is{" "}
-            <strong className="font-medium text-foreground">not</strong> a representative sample of
-            Americans, or of Reddit.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {[
-              `${precomputed.pct_male}% male`,
-              `${precomputed.pct_us}% US`,
-              `${precomputed.pct_in_tech}% in IT`,
-              precomputed.median_wages ? `median wages ${formatDollar(precomputed.median_wages, true)}` : null,
-              `${precomputed.pct_college}% college-educated`,
-            ]
-              .filter(Boolean)
-              .map((chip) => (
-                <span
-                  key={chip as string}
-                  className="text-[11px] px-3 py-1 rounded-full bg-[var(--slate-025)] text-[var(--slate-600)] font-mono numerics border border-[var(--slate-050)]"
-                >
-                  {chip}
-                </span>
-              ))}
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* Inputs */}
           <div className="lg:col-span-2 bg-white rounded-xl border border-[var(--slate-050)] p-6">
