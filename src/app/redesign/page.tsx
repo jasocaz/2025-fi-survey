@@ -12,6 +12,7 @@ import { AllocationSection } from "@/components/redesign/AllocationSection";
 import { YearsToFISection } from "@/components/redesign/YearsToFISection";
 import { AlreadyFISection } from "@/components/redesign/AlreadyFISection";
 import { NotableFindingsSection } from "@/components/redesign/NotableFindingsSection";
+import { CrossTabsSection } from "@/components/redesign/CrossTabsSection";
 import { MethodologySection } from "@/components/redesign/MethodologySection";
 import { CompareSection } from "@/components/redesign/CompareSection";
 import { MacroMoodSection } from "@/components/redesign/MacroMoodSection";
@@ -74,10 +75,13 @@ export default function SurveyRedesignPage() {
         {/* 08 Already FI cohort */}
         <AlreadyFISection rows={filteredRows} />
 
-        {/* 09 Notable findings */}
+        {/* 09 Notable findings — punchy stats */}
         <NotableFindingsSection rows={filteredRows} />
 
-        {/* 10 Methodology */}
+        {/* 10 Cross-tab insights — patterns the headline numbers don't show */}
+        <CrossTabsSection rows={filteredRows} />
+
+        {/* 11 Methodology */}
         <MethodologySection total={pc.total} completed={pc.completed} />
 
         {/* 12 Compare (kept, restyled via scoped CSS) */}
