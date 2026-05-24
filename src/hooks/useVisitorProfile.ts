@@ -44,6 +44,19 @@ function loadFromStorage(): VisitorProfile {
   }
 }
 
+function loadFromURL(): Partial<VisitorProfile> {
+  if (typeof window === "undefined") return {};
+  const p = new URLSearchParams(window.location.search);
+  const out: Partial<VisitorProfile> = {};
+  const nw = p.get("v_nw");   if (nw)  out.net_worth    = parseFloat(nw);
+  const inc = p.get("v_inc"); if (inc) out.income        = parseFloat(inc);
+  const fi  = p.get("v_fi");  if (fi)  out.fi_number     = parseFloat(fi);
+  const exp = p.get("v_exp"); if (exp) out.expenses      = parseFloat(exp);
+  const dbt = p.get("v_debt");if (dbt) out.debt          = parseFloat(dbt);
+  const age = p.get("v_age"); if (age) out.age_bracket   = age;
+  return out;
+}
+
 function sortedNonNull(rows: SurveyResponse[], getter: (r: SurveyResponse) => number | null): number[] {
   return rows
     .map(getter)
@@ -55,7 +68,10 @@ export function useVisitorProfile(allRows: SurveyResponse[]) {
   const [profile, setProfileRaw] = useState<VisitorProfile>(EMPTY);
 
   useEffect(() => {
-    setProfileRaw(loadFromStorage());
+    const fromURL = loadFromURL();
+    const hasURLData = Object.keys(fromURL).length > 0;
+    const base = hasURLData ? { ...loadFromStorage(), ...fromURL } : loadFromStorage();
+    setProfileRaw(base);
   }, []);
 
   const setProfile = useCallback((updates: Partial<VisitorProfile>) => {

@@ -41,6 +41,12 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
   const [mode, setMode] = useState<"number" | "date">("number");
   const data = buildDivergingData(rows, mode);
 
+  // Symmetric domain padded to nearest 10, so the 0 line sits where the eye expects.
+  const maxRaised = Math.max(0, ...data.map((d) => d.raised));
+  const maxLowered = Math.max(0, ...data.map((d) => Math.abs(d.lowered)));
+  const xMax = Math.ceil(Math.max(maxRaised, 10) / 10) * 10;
+  const xMin = -Math.ceil(Math.max(maxLowered, 10) / 10) * 10;
+
   const CustomTooltip = ({
     active,
     payload,
@@ -81,8 +87,10 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
           lede={
             <>
               Share of respondents who said each factor changed their FI{" "}
-              {mode === "number" ? "number" : "planned retirement date"} this year. Positive raised
-              it; negative lowered it.
+              {mode === "number" ? "number" : "planned retirement date"} this year.{" "}
+              <span style={{ color: DIVERGING.lowered }}>Green left of zero</span> lowered the
+              target (easier);{" "}
+              <span style={{ color: DIVERGING.raised }}>red right of zero</span> raised it (harder).
             </>
           }
         />
@@ -110,7 +118,12 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
           </div>
 
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={data} layout="vertical" margin={{ top: 0, right: 60, left: 140, bottom: 0 }}>
+            <BarChart
+              data={data}
+              layout="vertical"
+              stackOffset="sign"
+              margin={{ top: 0, right: 40, left: 140, bottom: 0 }}
+            >
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} horizontal={false} />
               <XAxis
                 type="number"
@@ -118,7 +131,7 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
                 tick={{ fontSize: 12, fill: CHART.axisLabel }}
                 axisLine={false}
                 tickLine={false}
-                domain={[-15, 60]}
+                domain={[xMin, xMax]}
               />
               <YAxis
                 type="category"
@@ -130,7 +143,7 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
               />
               <Tooltip content={<CustomTooltip />} />
               <ReferenceLine x={0} stroke={CHART.refLineMuted} strokeWidth={2} />
-              <Bar dataKey="lowered" name="Lowered it" stackId="a" fill={DIVERGING.lowered} maxBarSize={32} />
+              <Bar dataKey="lowered" name="Lowered it" stackId="a" fill={DIVERGING.lowered} radius={[3, 0, 0, 3]} maxBarSize={32} />
               <Bar dataKey="raised" name="Raised it" stackId="a" fill={DIVERGING.raised} radius={[0, 3, 3, 0]} maxBarSize={32} />
             </BarChart>
           </ResponsiveContainer>

@@ -98,7 +98,14 @@ export default function SurveyRedesignPage() {
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="flex flex-wrap gap-8 text-[13px] text-white/60">
             <a href="#top" className="hover:text-white transition-colors">Back to top</a>
-            <a href="#methodology" className="hover:text-white transition-colors">Methodology</a>
+            <a
+              href="https://docs.google.com/spreadsheets/d/1hGPJf_H07ph6idv6AqEO9MHNCD9icp3N/edit?gid=1578869259#gid=1578869259"
+              target="_blank"
+              rel="noopener"
+              className="hover:text-white transition-colors"
+            >
+              Raw Data ↗
+            </a>
             <a
               href="https://www.reddit.com/r/financialindependence/"
               target="_blank"

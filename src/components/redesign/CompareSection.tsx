@@ -62,12 +62,17 @@ export function CompareSection({ allRows, precomputed }: { allRows: SurveyRespon
 
   const shareURL = () => {
     if (typeof window === "undefined") return;
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(window.location.search);
     if (profile.net_worth) params.set("v_nw", String(profile.net_worth));
+    else params.delete("v_nw");
     if (profile.income) params.set("v_inc", String(profile.income));
+    else params.delete("v_inc");
     if (profile.fi_number) params.set("v_fi", String(profile.fi_number));
+    else params.delete("v_fi");
     if (profile.expenses) params.set("v_exp", String(profile.expenses));
+    else params.delete("v_exp");
     if (profile.debt) params.set("v_debt", String(profile.debt));
+    else params.delete("v_debt");
     params.set("v_age", profile.age_bracket);
     const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
     navigator.clipboard.writeText(url);

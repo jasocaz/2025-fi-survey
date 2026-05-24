@@ -3,7 +3,47 @@
 
    These variables override the project's global shadcn tokens, but only
    inside <div data-theme="redesign">. Original "/" route is untouched.
+
+   IMPORTANT: Brand/slate/navy tokens are also registered at :root so that
+   Portal-rendered elements (Sheet drawer, tooltips, etc.) that teleport
+   outside the [data-theme="redesign"] wrapper can still resolve them.
+   These names don't conflict with shadcn's token names (--primary, --border…)
+   so promoting them to :root is safe.
    ========================================================================= */
+
+:root {
+  /* Brand emerald — also needed by Sheet/portal content */
+  --brand: #0e9f6e;
+  --brand-dark: #0a8657;
+  --brand-light: #3ddb9a;
+  --brand-soft: #e6f7f0;
+  --brand-deep: #04432d;
+
+  /* Navy */
+  --navy: #0a2540;
+  --navy-deep: #011936;
+
+  /* Cool slate scale */
+  --slate-025: #f6f9fc;
+  --slate-050: #e3e8ee;
+  --slate-100: #c1ccdd;
+  --slate-200: #adbdcc;
+  --slate-300: #8898aa;
+  --slate-400: #6b7c93;
+  --slate-500: #525f7f;
+  --slate-600: #425466;
+  --slate-700: #2a3a55;
+  --slate-800: #1a2c42;
+  --slate-900: #0a2540;
+
+  /* Gradients */
+  --gradient-mesh:
+    radial-gradient(58% 75% at 82% 8%, rgba(255, 222, 0, 0.32), transparent 60%),
+    radial-gradient(60% 80% at 8% 92%, rgba(17, 239, 227, 0.34), transparent 60%),
+    linear-gradient(135deg, #0e9f6e 0%, #0a8657 45%, #04432d 100%);
+  --gradient-navy: linear-gradient(180deg, #0a2540 0%, #011936 100%);
+  --gradient-brand-deep: linear-gradient(135deg, #0e9f6e 0%, #04432d 100%);
+}
 
 [data-theme="redesign"] {
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;

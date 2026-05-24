@@ -54,7 +54,7 @@ export function NotableFindingsSection({ rows }: { rows: SurveyResponse[] }) {
   const hasSupGovPct = Math.round((hasSupGov / n) * 100);
 
   return (
-    <section data-section id="findings">
+    <section data-section id="notable-findings">
       <SectionHeader
         number="09"
         eyebrow="Notable findings"

@@ -130,11 +130,12 @@ export function FilterBar({ count, total }: Props) {
 
         {/* Nav — only on md+ */}
         <nav className="hidden md:flex items-center gap-6 text-[13px] text-[var(--slate-600)]">
-          <a href="#who" className="hover:text-foreground transition-colors">Who responded</a>
-          <a href="#compare" className="hover:text-foreground transition-colors">Compare</a>
+          <a href="#demographics" className="hover:text-foreground transition-colors">Who responded</a>
           <a href="#networth" className="hover:text-foreground transition-colors">Net worth</a>
           <a href="#fi-plan" className="hover:text-foreground transition-colors">The plan</a>
           <a href="#already-fi" className="hover:text-foreground transition-colors">Already FI</a>
+          <a href="#notable-findings" className="hover:text-foreground transition-colors">Notable findings</a>
+          <a href="#compare" className="hover:text-foreground transition-colors">Compare</a>
         </nav>
 
         <div className="flex-1" />
@@ -183,6 +184,7 @@ export function FilterBar({ count, total }: Props) {
                 ? "h-[88vh] rounded-t-2xl"
                 : "w-[420px] sm:max-w-[420px]",
             )}
+            style={{ fontFamily: "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif" }}
           >
             <SheetHeader className="px-6 pt-5 pb-4 border-b border-[var(--slate-050)] flex-row items-center justify-between space-y-0">
               <SheetTitle className="text-[15px] font-medium tracking-[-0.005em]">
