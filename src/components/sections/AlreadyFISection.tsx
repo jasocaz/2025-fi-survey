@@ -41,7 +41,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
-      <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§07</p>
+      <p className="text-xs font-semibold tracking-widest text-stone-600 uppercase mb-1">§07</p>
       <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-2">The already-FI cohort</h2>
       <p className="text-stone-500 mb-8 text-sm">
         {n} respondents say they&apos;re financially independent · {reRows.length} say they&apos;re retired.
@@ -50,25 +50,25 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Card className="border-stone-200 shadow-none">
           <CardContent className="pt-5">
-            <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 mb-2">Median NW (FI)</p>
+            <p className="text-xs font-semibold tracking-wider uppercase text-stone-600 mb-2">Median NW (FI)</p>
             <p className="text-3xl font-bold font-mono text-[#0a7d4a]">{medFiNW ? formatDollar(medFiNW, true) : "—"}</p>
           </CardContent>
         </Card>
         <Card className="border-stone-200 shadow-none">
           <CardContent className="pt-5">
-            <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 mb-2">Median NW (pursuing)</p>
+            <p className="text-xs font-semibold tracking-wider uppercase text-stone-600 mb-2">Median NW (pursuing)</p>
             <p className="text-3xl font-bold font-mono text-stone-700">{medNonFiNW ? formatDollar(medNonFiNW, true) : "—"}</p>
           </CardContent>
         </Card>
         <Card className="border-stone-200 shadow-none">
           <CardContent className="pt-5">
-            <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 mb-2">Median target SWR</p>
+            <p className="text-xs font-semibold tracking-wider uppercase text-stone-600 mb-2">Median target SWR</p>
             <p className="text-3xl font-bold font-mono text-stone-700">{medTargetSWR ? `${medTargetSWR.toFixed(2)}%` : "—"}</p>
           </CardContent>
         </Card>
         <Card className="border-stone-200 shadow-none">
           <CardContent className="pt-5">
-            <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 mb-2">Median actual SWR</p>
+            <p className="text-xs font-semibold tracking-wider uppercase text-stone-600 mb-2">Median actual SWR</p>
             <p className="text-3xl font-bold font-mono text-[#0a7d4a]">{medActualSWR ? `${medActualSWR.toFixed(2)}%` : "—"}</p>
           </CardContent>
         </Card>

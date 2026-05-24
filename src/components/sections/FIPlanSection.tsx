@@ -32,25 +32,24 @@ function SWRHistogram({ rows, visitorSWR }: { rows: SurveyResponse[]; visitorSWR
     : null;
 
   return (
-    <ResponsiveContainer width="100%" height={220}>
-      <BarChart data={data} margin={{ top: 24, right: 20, left: 0, bottom: 5 }}>
+    <ResponsiveContainer width="100%" height={190}>
+      <BarChart data={data} margin={{ top: 20, right: 8, left: -10, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#f0ede6" vertical={false} />
         <XAxis
           dataKey="swrLabel"
-          tick={{ fontSize: 11, fill: "#78716c" }}
+          tick={{ fontSize: 10, fill: "#78716c" }}
           axisLine={false}
           tickLine={false}
           interval={1}
-          label={{ value: "target SWR (% of portfolio)", position: "insideBottom", offset: -4, fontSize: 10, fill: "#a8a29e" }}
         />
-        <YAxis tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} />
+        <YAxis tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} width={28} />
         <Tooltip formatter={(v) => [v, "respondents"]} contentStyle={{ fontSize: 12, borderColor: "#e6e3d9" }} />
-        <Bar dataKey="count" fill="#0a7d4a" radius={[3, 3, 0, 0]} maxBarSize={40} />
+        <Bar dataKey="count" fill="#0a7d4a" radius={[3, 3, 0, 0]} />
         <ReferenceLine x="4.0%" stroke="#c4503c" strokeWidth={2} strokeDasharray="4 2"
-          label={{ value: "4% rule", position: "top", fontSize: 10, fill: "#c4503c", fontWeight: 700 }} />
+          label={{ value: "4% rule", position: "top", fontSize: 9, fill: "#c4503c", fontWeight: 700 }} />
         {visitorBucket && (
           <ReferenceLine x={`${visitorBucket}%`} stroke="#0a5530" strokeWidth={2}
-            label={{ value: "▲ you", position: "top", fontSize: 10, fill: "#0a5530", fontWeight: 700 }} />
+            label={{ value: "▲ you", position: "top", fontSize: 9, fill: "#0a5530", fontWeight: 700 }} />
         )}
       </BarChart>
     </ResponsiveContainer>
@@ -124,81 +123,80 @@ export function FIPlanSection({ rows, visitorFINumber, visitorSWR }: {
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
-      <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§04</p>
+      <p className="text-xs font-semibold tracking-widest text-stone-500 uppercase mb-1">§04</p>
       <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-6">The FI plan</h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        {/* Flavor donut */}
+      {/* 4-chart grid — breaks 1→2→4 columns */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* 1. FI flavor donut */}
         <div>
-          <h3 className="text-sm font-semibold text-stone-700 mb-4">FI flavor</h3>
+          <h3 className="text-sm font-semibold text-stone-700 mb-3">FI flavor</h3>
           <div className="flex flex-col items-center">
-            <PieChart width={180} height={180}>
-              <Pie data={flavorData} cx={85} cy={85} innerRadius={50} outerRadius={82} paddingAngle={1} dataKey="value">
+            <PieChart width={160} height={160}>
+              <Pie data={flavorData} cx={75} cy={75} innerRadius={44} outerRadius={72} paddingAngle={1} dataKey="value">
                 {flavorData.map((d) => (
                   <Cell key={d.name} fill={FLAVOR_COLORS[d.name] ?? FLAVOR_COLORS["FI"]} />
                 ))}
               </Pie>
               <Tooltip formatter={(v) => [`${v} (${Math.round(Number(v)/n*100)}%)`, ""]} contentStyle={{ fontSize: 12, borderColor: "#e6e3d9" }} />
             </PieChart>
-            <ul className="text-xs space-y-1 mt-2">
+            <ul className="text-xs space-y-1 mt-2 self-start">
               {flavorData.map((d) => (
                 <li key={d.name} className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full" style={{ background: FLAVOR_COLORS[d.name] ?? "#aaa" }} />
+                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: FLAVOR_COLORS[d.name] ?? "#aaa" }} />
                   <span className="text-stone-600">{d.name}</span>
-                  <span className="font-mono text-stone-400">{Math.round(d.value/n*100)}%</span>
+                  <span className="font-mono text-stone-500">{Math.round(d.value/n*100)}%</span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* Stop working donut */}
+        {/* 2. Stop working donut */}
         <div>
-          <h3 className="text-sm font-semibold text-stone-700 mb-4">Will you stop working at FI?</h3>
+          <h3 className="text-sm font-semibold text-stone-700 mb-3">Stop working at FI?</h3>
           <div className="flex flex-col items-center">
-            <PieChart width={180} height={180}>
-              <Pie data={stopWorkingData} cx={85} cy={85} innerRadius={50} outerRadius={82} paddingAngle={1} dataKey="value">
+            <PieChart width={160} height={160}>
+              <Pie data={stopWorkingData} cx={75} cy={75} innerRadius={44} outerRadius={72} paddingAngle={1} dataKey="value">
                 {stopWorkingData.map((_, i) => <Cell key={i} fill={STOP_COLORS[i]} />)}
               </Pie>
               <Tooltip formatter={(v) => [`${v} (${Math.round(Number(v)/n*100)}%)`, ""]} contentStyle={{ fontSize: 12, borderColor: "#e6e3d9" }} />
             </PieChart>
-            <ul className="text-xs space-y-1 mt-2">
+            <ul className="text-xs space-y-1 mt-2 self-start">
               {stopWorkingData.map((d, i) => (
                 <li key={d.name} className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full" style={{ background: STOP_COLORS[i] }} />
+                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: STOP_COLORS[i] }} />
                   <span className="text-stone-600">{d.name}</span>
-                  <span className="font-mono text-stone-400">{Math.round(d.value/n*100)}%</span>
+                  <span className="font-mono text-stone-500">{Math.round(d.value/n*100)}%</span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* Target retire age */}
+        {/* 3. Target retire age */}
         <div>
-          <h3 className="text-sm font-semibold text-stone-700 mb-4">Target retirement age</h3>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={retireAgeData} margin={{ top: 0, right: 10, left: -20, bottom: 0 }}>
+          <h3 className="text-sm font-semibold text-stone-700 mb-3">Target retirement age</h3>
+          <ResponsiveContainer width="100%" height={190}>
+            <BarChart data={retireAgeData} margin={{ top: 0, right: 4, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0ede6" vertical={false} />
-              <XAxis dataKey="bracket" tick={{ fontSize: 9, fill: "#78716c" }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="bracket" tick={{ fontSize: 8, fill: "#78716c" }} axisLine={false} tickLine={false} angle={-35} textAnchor="end" height={36} />
               <YAxis tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} />
               <Tooltip formatter={(v) => [v, "respondents"]} contentStyle={{ fontSize: 12, borderColor: "#e6e3d9" }} />
-              <Bar dataKey="count" fill="#0a7d4a" radius={[3, 3, 0, 0]} maxBarSize={32} />
+              <Bar dataKey="count" fill="#0a7d4a" radius={[3, 3, 0, 0]} maxBarSize={28} />
             </BarChart>
           </ResponsiveContainer>
         </div>
+
+        {/* 4. SWR histogram */}
+        <div>
+          <h3 className="text-sm font-semibold text-stone-700 mb-1">Target safe withdrawal rate</h3>
+          <p className="text-xs text-stone-400 mb-2">4% rule (red) remains dominant; cluster shifting toward 3–3.5%.</p>
+          <SWRHistogram rows={rows} visitorSWR={visitorSWR} />
+        </div>
       </div>
 
-      {/* SWR histogram */}
-      <div className="mb-8">
-        <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">Target safe withdrawal rate</p>
-        <p className="text-xs text-stone-400 mb-3">
-          The 4% rule (red line) remains dominant, but a notable cluster has shifted left toward 3–3.5%.
-        </p>
-        <SWRHistogram rows={rows} visitorSWR={visitorSWR} />
-      </div>
-
-      {/* Supplement plan */}
+      {/* Supplement plan — full width */}
       <div>
         <h3 className="text-sm font-semibold text-stone-700 mb-1">What&apos;s the supplement plan?</h3>
         <p className="text-xs text-stone-400 mb-3">

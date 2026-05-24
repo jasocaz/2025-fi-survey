@@ -29,7 +29,7 @@ export function HeroSection({ rows, precomputed }: Props) {
 
   return (
     <section className="max-w-7xl mx-auto px-6 pt-10 pb-6">
-      <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-2">
+      <p className="text-xs font-semibold tracking-widest text-stone-600 uppercase mb-2">
         2025 Annual Survey
       </p>
       <h1 className="font-serif text-4xl font-semibold text-stone-900 mb-2 leading-tight">
@@ -44,7 +44,7 @@ export function HeroSection({ rows, precomputed }: Props) {
         {stats.map((s) => (
           <Card key={s.label} className="border-stone-200 shadow-none">
             <CardContent className="pt-5 pb-5">
-              <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-2">{s.label}</p>
+              <p className="text-xs font-semibold tracking-widest text-stone-600 uppercase mb-2">{s.label}</p>
               <p className={`text-4xl font-bold font-mono tabular-nums ${s.accent ? "text-[#0a7d4a]" : "text-stone-900"}`}>
                 {s.value}
               </p>

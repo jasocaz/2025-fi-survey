@@ -77,7 +77,7 @@ export function CompareSection({ allRows }: { allRows: SurveyResponse[] }) {
 
   return (
     <section id="compare" className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
-      <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§02</p>
+      <p className="text-xs font-semibold tracking-widest text-stone-600 uppercase mb-1">§02</p>
       <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-1">
         How do you compare? (to this <em>community</em>)
       </h2>
@@ -248,7 +248,7 @@ export function CompareSection({ allRows }: { allRows: SurveyResponse[] }) {
             {peers.length > 0 ? (
               <Card className="border-stone-200 shadow-none">
                 <CardContent className="pt-4">
-                  <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 mb-2">
+                  <p className="text-xs font-semibold tracking-wider uppercase text-stone-600 mb-2">
                     People like you (n={peers.length})
                   </p>
                   <div className="space-y-1.5 text-sm">
@@ -282,7 +282,7 @@ export function CompareSection({ allRows }: { allRows: SurveyResponse[] }) {
             ) : (
               <Card className="border-stone-200 shadow-none">
                 <CardContent className="pt-4">
-                  <p className="text-xs font-semibold tracking-wider uppercase text-stone-400 mb-2">
+                  <p className="text-xs font-semibold tracking-wider uppercase text-stone-600 mb-2">
                     People like you
                   </p>
                   <p className="text-sm text-stone-400">Enter age and net worth to find your closest peers in the survey</p>

@@ -59,7 +59,7 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
-      <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§06</p>
+      <p className="text-xs font-semibold tracking-widest text-stone-600 uppercase mb-1">§06</p>
       <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-2">
         Inflation and politics, in that order
       </h2>

@@ -102,7 +102,7 @@ export function IncomeExpensesSection({ rows, visitorIncome, visitorExpenses }: 
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-8 border-t border-stone-100">
-      <p className="text-xs font-semibold tracking-widest text-stone-400 uppercase mb-1">§05</p>
+      <p className="text-xs font-semibold tracking-widest text-stone-600 uppercase mb-1">§05</p>
       <h2 className="font-serif text-3xl font-semibold text-stone-900 mb-6">Income &amp; expenses</h2>
 
       {/* Expense composition */}
@@ -135,40 +135,41 @@ export function IncomeExpensesSection({ rows, visitorIncome, visitorExpenses }: 
         </ResponsiveContainer>
       </div>
 
-      {/* Income by FI status */}
-      <div className="mb-8">
-        <h3 className="text-sm font-semibold text-stone-700 mb-1">Income source by FI status</h3>
-        <p className="text-xs text-stone-400 mb-3">
-          Capital gains and dividends rise sharply once FI is reached — wages are replaced, not just reduced.
-        </p>
-        <ResponsiveContainer width="100%" height={240}>
-          <BarChart data={incByFI} margin={{ top: 5, right: 20, left: 60, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0ede6" vertical={false} />
-            <XAxis dataKey="bracket" tick={{ fontSize: 11, fill: "#78716c" }} axisLine={false} tickLine={false} />
-            <YAxis tickFormatter={(v) => formatDollar(v, true)} tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} width={58} />
-            <Tooltip formatter={(v, name) => [formatDollar(Number(v)), name]} contentStyle={{ fontSize: 11, borderColor: "#e6e3d9" }} />
-            <Legend wrapperStyle={{ fontSize: 10 }} />
-            {INC_CATEGORIES.map(({ label, color }) => (
-              <Bar key={label} dataKey={label} stackId="a" fill={color} maxBarSize={80} />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+      {/* Income by FI status + Savings rate — side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+          <h3 className="text-sm font-semibold text-stone-700 mb-1">Income source by FI status</h3>
+          <p className="text-xs text-stone-400 mb-3">
+            Capital gains and dividends rise sharply once FI is reached — wages are replaced, not just reduced.
+          </p>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={incByFI} margin={{ top: 5, right: 10, left: 50, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0ede6" vertical={false} />
+              <XAxis dataKey="bracket" tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} />
+              <YAxis tickFormatter={(v) => formatDollar(v, true)} tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} width={50} />
+              <Tooltip formatter={(v, name) => [formatDollar(Number(v)), name]} contentStyle={{ fontSize: 11, borderColor: "#e6e3d9" }} />
+              <Legend wrapperStyle={{ fontSize: 10 }} />
+              {INC_CATEGORIES.map(({ label, color }) => (
+                <Bar key={label} dataKey={label} stackId="a" fill={color} maxBarSize={60} />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
 
-      {/* Savings rate by age */}
-      <div>
-        <h3 className="text-sm font-semibold text-stone-700 mb-1">Implied savings rate by age</h3>
-        <p className="text-xs text-stone-400 mb-3">(income − expenses) / income · median per bracket</p>
-        <ResponsiveContainer width="100%" height={180}>
-          <BarChart data={savingsRateByAge} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0ede6" vertical={false} />
-            <XAxis dataKey="bracket" tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} />
-            <YAxis tickFormatter={(v) => `${v.toFixed(0)}%`} tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} />
-            <Tooltip formatter={(v) => [`${Number(v).toFixed(1)}%`, "median savings rate"]} contentStyle={{ fontSize: 12, borderColor: "#e6e3d9" }} />
-            <ReferenceLine y={0} stroke="#d6d3cb" />
-            <Bar dataKey="rate" fill="#0a7d4a" radius={[3, 3, 0, 0]} maxBarSize={48} />
-          </BarChart>
-        </ResponsiveContainer>
+        <div>
+          <h3 className="text-sm font-semibold text-stone-700 mb-1">Implied savings rate by age</h3>
+          <p className="text-xs text-stone-400 mb-3">(income − expenses) / income · median per bracket</p>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={savingsRateByAge} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0ede6" vertical={false} />
+              <XAxis dataKey="bracket" tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} />
+              <YAxis tickFormatter={(v) => `${v.toFixed(0)}%`} tick={{ fontSize: 10, fill: "#78716c" }} axisLine={false} tickLine={false} />
+              <Tooltip formatter={(v) => [`${Number(v).toFixed(1)}%`, "median savings rate"]} contentStyle={{ fontSize: 12, borderColor: "#e6e3d9" }} />
+              <ReferenceLine y={0} stroke="#d6d3cb" />
+              <Bar dataKey="rate" fill="#0a7d4a" radius={[3, 3, 0, 0]} maxBarSize={40} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </section>
   );
