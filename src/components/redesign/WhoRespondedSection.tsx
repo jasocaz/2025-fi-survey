@@ -170,7 +170,7 @@ export function WhoRespondedSection({ rows }: { rows: SurveyResponse[] }) {
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={industryData} layout="vertical" margin={{ top: 0, right: 20, left: 80, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} horizontal={false} />
-              <XAxis type="number" tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis type="number" domain={[0, 'dataMax']} tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <YAxis
                 type="category"
                 dataKey="name"
