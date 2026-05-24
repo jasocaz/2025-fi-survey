@@ -95,10 +95,6 @@ export default function SurveyRedesignPage() {
           <h3 className="text-[clamp(28px,3vw,40px)] font-medium leading-[1.1] tracking-[-0.02em] max-w-[22ch] mb-4">
             An annual self-portrait of a community walking toward financial independence.
           </h3>
-          <p className="text-white/70 max-w-[60ch] leading-[1.55]">
-            {pc.total.toLocaleString()} self-reported responses · collected April–May 2025 ·
-            anonymized response-level data available on request.
-          </p>
           <div className="flex flex-wrap gap-8 mt-10 pt-6 border-t border-white/12 text-[13px] text-white/60">
             <a href="#top" className="hover:text-white transition-colors">Back to top</a>
             <a href="#methodology" className="hover:text-white transition-colors">Methodology</a>
@@ -110,7 +106,17 @@ export default function SurveyRedesignPage() {
             >
               r/financialindependence ↗
             </a>
-            <span className="ml-auto text-white/40">2025 community survey</span>
+            <span className="ml-auto text-white/60">
+              Made with love by{" "}
+              <a
+                href="https://www.reddit.com/user/FIREdupforRE/"
+                target="_blank"
+                rel="noopener"
+                className="text-white hover:underline"
+              >
+                u/FIREdupforRE
+              </a>
+            </span>
           </div>
         </div>
       </footer>

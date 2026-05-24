@@ -43,9 +43,9 @@ export function WhiskerChart({ data, visitorValue, visitorBracket, logScale = tr
   }, []);
 
   const margin = compact
-    ? { top: 18, right: 8, left: 44, bottom: 22 }
-    : { top: 24, right: 20, left: 60, bottom: 28 };
-  const svgH = compact ? 180 : 280;
+    ? { top: 18, right: 8, left: 44, bottom: 44 }
+    : { top: 24, right: 20, left: 60, bottom: 44 };
+  const svgH = compact ? 200 : 300;
   const plotW = width - margin.left - margin.right;
   const plotH = svgH - margin.top - margin.bottom;
 
@@ -169,18 +169,23 @@ export function WhiskerChart({ data, visitorValue, visitorBracket, logScale = tr
             );
           })}
 
-          {valid.map((d, i) => (
-            <text
-              key={d.bracket}
-              x={toX(i)}
-              y={plotH + 16}
-              textAnchor="middle"
-              fontSize={11}
-              fill={CHART.axisLabel}
-            >
-              {d.bracket}
-            </text>
-          ))}
+          {valid.map((d, i) => {
+            const x = toX(i);
+            const y = plotH + 14;
+            return (
+              <text
+                key={d.bracket}
+                x={x}
+                y={y}
+                textAnchor="end"
+                fontSize={11}
+                fill={CHART.axisLabel}
+                transform={`rotate(-35 ${x} ${y})`}
+              >
+                {d.bracket}
+              </text>
+            );
+          })}
         </g>
       </svg>
 
