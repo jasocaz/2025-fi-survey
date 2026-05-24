@@ -206,16 +206,13 @@ export function CompareSection({ allRows, precomputed }: { allRows: SurveyRespon
                 className="p-6 rounded-xl text-white"
                 style={{ background: "var(--gradient-brand-deep)" }}
               >
-                <p className="text-[11px] font-medium uppercase tracking-[0.10em] text-white/70 mb-2">
-                  Net worth
+                <p className="text-[11px] font-medium uppercase tracking-[0.10em] text-white/70 mb-3">
+                  Net worth percentile
                 </p>
-                <p className="text-5xl font-medium font-mono numerics tracking-[-0.025em]">
+                <div className="font-light leading-[0.95] tracking-[-0.035em] text-[clamp(56px,7vw,96px)] numerics">
                   {ordinal(results.nw_pct_age ?? results.nw_pct_global!)}
-                  <span className="text-xl font-normal text-white/70 ml-2 font-sans">
-                    percentile
-                  </span>
-                </p>
-                <p className="text-sm text-white/80 mt-2">
+                </div>
+                <p className="text-sm text-white/80 mt-4">
                   among {profile.age_bracket} year olds in the survey
                   {results.nw_pct_global !== results.nw_pct_age &&
                     ` · ${ordinal(results.nw_pct_global!)} overall`}

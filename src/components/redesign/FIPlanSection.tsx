@@ -171,6 +171,9 @@ export function FIPlanSection({
       : `$${Math.round(medFI / 1000)}k`
     : "$2.5M";
 
+  const swrVals = rows.map((r) => r.target_swr).filter((v): v is number => v !== null && v >= 1 && v <= 5.5);
+  const medSWR = swrVals.length ? median(swrVals) : null;
+
   const flavorData = FI_FLAVORS.map((f) => ({
     name: f.replace(" / Coast FI", ""),
     value: rows.filter((r) => r.fi_flavor === f).length,
@@ -220,6 +223,40 @@ export function FIPlanSection({
             </>
           }
         />
+
+        {/* Big number card — median target SWR */}
+        {medSWR !== null && (
+          <div className="grid grid-cols-1 md:grid-cols-[0.6fr_1.4fr] gap-5 mb-5">
+            <div
+              className="p-8 rounded-xl text-white flex flex-col justify-between"
+              style={{ background: "var(--gradient-navy)" }}
+            >
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.10em] text-white/70 mb-3 font-medium">
+                  Median target SWR
+                </p>
+                <div className="font-light leading-[0.95] tracking-[-0.035em] text-[clamp(56px,7vw,96px)] numerics">
+                  {medSWR.toFixed(1)}
+                  <span className="text-[0.45em] text-white/60 ml-1 font-normal">%</span>
+                </div>
+              </div>
+              <p className="text-sm text-white/75 mt-6 leading-[1.55]">
+                This community targets a conservative withdrawal rate — well below the commonly cited 4% rule.
+              </p>
+              <div className="mt-6 pt-5 border-t border-white/15">
+                <div className="text-[11px] uppercase tracking-[0.08em] text-white/55 mb-1">Median FI target</div>
+                <div className="text-2xl font-medium font-mono numerics">{medFIFmt}</div>
+              </div>
+            </div>
+            <div className={moduleClass}>
+              <h3 className="text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--slate-500)] mb-1">
+                Target safe withdrawal rate
+              </h3>
+              <p className="text-[11px] text-[var(--slate-400)] mb-2">Cluster sits below the 4% rule.</p>
+              <SWRHistogram rows={rows} visitorSWR={visitorSWR} />
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-5">
           {/* 1. FI flavor donut */}
@@ -315,14 +352,6 @@ export function FIPlanSection({
             </ResponsiveContainer>
           </div>
 
-          {/* 4. SWR histogram */}
-          <div className={moduleClass}>
-            <h3 className="text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--slate-500)] mb-1">
-              Target safe withdrawal rate
-            </h3>
-            <p className="text-[11px] text-[var(--slate-400)] mb-2">Cluster sits below the 4% rule.</p>
-            <SWRHistogram rows={rows} visitorSWR={visitorSWR} />
-          </div>
         </div>
 
         {/* Supplement plan — full width module */}
