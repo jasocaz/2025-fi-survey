@@ -1,8 +1,9 @@
 /* =========================================================================
-   Redesign — scoped design tokens for /redesign route only.
+   Redesign theme — scoped design tokens for the primary "/" route.
 
    These variables override the project's global shadcn tokens, but only
-   inside <div data-theme="redesign">. Original "/" route is untouched.
+   inside <div data-theme="redesign">. The legacy "/oldversion" route is
+   not wrapped, so it keeps the original shadcn styling.
 
    IMPORTANT: Brand/slate/navy tokens are also registered at :root so that
    Portal-rendered elements (Sheet drawer, tooltips, etc.) that teleport
