@@ -72,7 +72,7 @@ const STEPS = [
   },
   {
     title: "Normalized",
-    body: "Non-USD amounts converted at fixed reference rates; three free-text columns dropped; both completed and partial submissions retained.",
+    body: "Non-USD amounts converted at fixed reference rates. Both completed and partial submissions retained. Free-text columns kept aside and used only for qualitative notes — never piped into charts.",
   },
   {
     title: "Analyzed",

@@ -41,8 +41,10 @@ export function MethodologySection({ total, completed }: { total: number; comple
         </Note>
 
         <Note title="Free-text fields">
-          Three free-text columns (job title, retirement misconceptions, unique circumstances) were
-          dropped entirely. They are not used in any calculation and were not shipped to the client.
+          Four free-text columns (own and partner job titles, retirement misconceptions, unique
+          circumstances) are excluded from the structured JSON used by charts and counts. They
+          were reviewed manually for the qualitative findings in section 10; quoted material is
+          attributed to anonymous respondents.
         </Note>
 
         <Note title="Compare-yourself tool">

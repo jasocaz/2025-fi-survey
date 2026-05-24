@@ -100,24 +100,15 @@ export function CrossTabsSection({ rows }: { rows: SurveyResponse[] }) {
   const avgRetirement = avgConditional((r) => r.assets.retirement);
   const avgTaxable = avgConditional((r) => r.assets.taxable);
 
-  // --- 4. Target SWR by % to FI (pursuers)
-  const pursuers = rows.filter(
-    (r) => !r.is_fi && r.pct_to_fi !== null && (r.target_swr ?? 0) > 0 && (r.target_swr ?? 0) <= 10,
-  );
-  const swrByPct = (lo: number, hi: number) => {
-    const sub = pursuers.filter((r) => (r.pct_to_fi as number) >= lo && (r.pct_to_fi as number) < hi);
-    return sub.length >= 10 ? median(sub.map((r) => r.target_swr as number)) : null;
-  };
-  const swrFar = swrByPct(0, 75);
-  const swrClose = swrByPct(75, 100);
-
-  // --- 5. Identity ≠ action
-  const fiCohort = rows.filter((r) => r.is_fi);
-  const retiredAmongFI = fiCohort.filter((r) => r.is_re).length;
-  const fiActuallyRetiredPct = fiCohort.length
-    ? Math.round((retiredAmongFI / fiCohort.length) * 100)
-    : 0;
-  const fiStillWorking = fiCohort.length - retiredAmongFI;
+  // --- 4 + 5: themes from the raw CSV's free-text columns.
+  // The shipped JSON drops these for analytical use, but the raw responses
+  // (data/raw/responses.csv) retain two qualitative columns we read offline:
+  //   col 81  — "What misconceptions about retirement have you encountered…" (33 responses)
+  //   col 126 — "Is there anything unique about your financial circumstances…" (183 responses)
+  // The counts below come from a hand-coded keyword pass over those columns.
+  const UNIQUE_CIRCUMSTANCES_N = 183;
+  const OUTSIDE_MONEY_N = 34; // inheritance (14) + at-home (7) + IPO/RSU (7) + windfall (5) + family gift (1)
+  const outsideMoneyPct = Math.round((OUTSIDE_MONEY_N / UNIQUE_CIRCUMSTANCES_N) * 100);
 
   return (
     <section data-section data-alt="true" id="cross-tabs">
@@ -193,48 +184,45 @@ export function CrossTabsSection({ rows }: { rows: SurveyResponse[] }) {
           }
         />
 
-        {/* Card 4 — Caution at finish line */}
+        {/* Card 4 — Outside money */}
         <Card
-          chip="Withdrawal"
-          title="Caution sharpens at the finish line."
+          chip="What the headline hides"
+          title="Outside money is a quiet undercurrent."
           body={
-            swrFar && swrClose ? (
-              <>
-                Pursuers more than 25% away from their target plan a{" "}
-                <strong style={{ color: "var(--navy)", fontWeight: 500 }}>
-                  {swrFar.toFixed(1)}%
-                </strong>{" "}
-                withdrawal rate. Pursuers in their final quartile drop to{" "}
-                <strong style={{ color: "var(--navy)", fontWeight: 500 }}>
-                  {swrClose.toFixed(1)}%
-                </strong>
-                . A small shift, but consistent direction — sequence-of-returns risk gets more
-                concrete as the date approaches.
-              </>
-            ) : (
-              <>Target SWR drifts down as respondents close in on their FI date.</>
-            )
+            <>
+              Of the {UNIQUE_CIRCUMSTANCES_N} respondents who used the open “unique
+              circumstances” comment box,{" "}
+              <strong style={{ color: "var(--navy)", fontWeight: 500 }}>
+                {outsideMoneyPct}%
+              </strong>{" "}
+              flagged some form of outside boost — inheritance (most common), parents helping
+              with starter savings, living rent-free with family, or a company-equity
+              windfall. The headline net-worth numbers count every dollar the same.
+            </>
           }
         />
       </div>
 
-      {/* Card 5 — Full-width pull quote */}
+      {/* Card 5 — Full-width pull quote (real respondent quote) */}
       <div className="rd-card">
         <span className="rd-chip" style={{ marginBottom: 20, display: "inline-flex" }}>
-          Identity
+          In their words
         </span>
         <p className="pull pull--accent">
-          “Saying you&apos;re FI isn&apos;t quite the same as living it.”
+          “There&apos;s no finish line, everything is just a new start line.”
         </p>
         <p style={{ fontSize: 14, color: "var(--slate-600)", lineHeight: 1.6, margin: 0, maxWidth: "72ch" }}>
-          Of the {fiCohort.length.toLocaleString()} respondents who self-identify as financially
-          independent, only{" "}
-          <strong style={{ color: "var(--navy)", fontWeight: 500 }}>
-            {fiActuallyRetiredPct}%
-          </strong>{" "}
-          have actually retired. The other {fiStillWorking.toLocaleString()} are still working
-          — partially, fully, or marking themselves as “undecided.” The identity comes first;
-          the act of stopping follows on its own schedule, if at all.
+          A pattern in the 33 free-text responses to “What misconceptions about retirement
+          have you encountered on r/financialindependence?” The loudest community
+          self-critique isn&apos;t about the math — it&apos;s about treating FIRE as a
+          spreadsheet exercise. Respondents call out shooting for 3% withdrawal as “far too
+          conservative,” warn that “boredom and loneliness were not considered,” and describe
+          “Simulation Bias — the idea that mastering a spreadsheet is the same as mastering
+          retirement.”
+        </p>
+        <p style={{ fontSize: 11, color: "var(--slate-400)", marginTop: 16, fontStyle: "italic" }}>
+          Quotes from anonymous survey respondents · raw open-text responses from
+          data/raw/responses.csv
         </p>
       </div>
     </section>
