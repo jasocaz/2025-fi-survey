@@ -43,21 +43,19 @@ export function TipJarPopup() {
       >
         ×
       </button>
-      <p className="text-[14px] font-medium text-[var(--navy)] pr-7 mb-1.5 tracking-[-0.005em]">
-        Enjoyed the deep dive?
+      <p className="text-[14px] text-[var(--navy)] pr-7 leading-[1.45] tracking-[-0.005em]">
+        Enjoyed this?{" "}
+        <a
+          href={TIP_URL}
+          target="_blank"
+          rel="noopener"
+          onClick={dismiss}
+          className="font-medium text-[var(--brand)] hover:text-[var(--brand-dark)] underline underline-offset-2 decoration-[var(--brand)]/40 hover:decoration-[var(--brand-dark)] transition-colors"
+        >
+          Help fuel
+        </a>{" "}
+        the next one.
       </p>
-      <p className="text-[12px] text-[var(--slate-600)] leading-[1.5] mb-3">
-        Surveys + analysis are a side project. A coffee helps fuel the next one.
-      </p>
-      <a
-        href={TIP_URL}
-        target="_blank"
-        rel="noopener"
-        onClick={dismiss}
-        className="inline-flex items-center gap-1.5 rounded-full bg-[var(--brand)] hover:bg-[var(--brand-dark)] text-white text-[12px] font-medium px-3.5 py-2 transition-colors"
-      >
-        <span aria-hidden>☕</span> Buy me a coffee
-      </a>
     </div>
   );
 }
