@@ -163,6 +163,14 @@ export function FIPlanSection({
 }) {
   const n = rows.length;
 
+  const fiNums = rows.map((r) => r.fi_number).filter((v): v is number => v !== null);
+  const medFI = fiNums.length ? median(fiNums) : null;
+  const medFIFmt = medFI !== null
+    ? medFI >= 1_000_000
+      ? `$${(medFI / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`
+      : `$${Math.round(medFI / 1000)}k`
+    : "$2.5M";
+
   const flavorData = FI_FLAVORS.map((f) => ({
     name: f.replace(" / Coast FI", ""),
     value: rows.filter((r) => r.fi_flavor === f).length,
@@ -204,7 +212,7 @@ export function FIPlanSection({
         <SectionHeader
           number="04"
           eyebrow="Where they're going"
-          title="The plan."
+          title={`${medFIFmt} is the number the community is walking toward.`}
           lede={
             <>
               Most respondents are pursuing standard FI; ChubbyFI is the largest stretch goal. The

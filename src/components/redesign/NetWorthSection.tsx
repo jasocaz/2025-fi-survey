@@ -148,6 +148,14 @@ export function NetWorthSection({
   const nwData = buildWhiskerData(rows);
   const debtData = buildDebtWhiskerData(rows);
 
+  const nwValues = rows.map((r) => r.assets.total).filter((v): v is number => v !== null);
+  const medNW = nwValues.length ? median(nwValues) : null;
+  const medNWFmt = medNW !== null
+    ? medNW >= 1_000_000
+      ? `$${(medNW / 1_000_000).toFixed(2).replace(/\.?0+$/, "")}M`
+      : `$${Math.round(medNW / 1000)}k`
+    : "$1.58M";
+
   const pctToFIData = AGE_BRACKETS.map((bracket) => {
     const vals = rows
       .filter((r) => r.age_bracket === bracket && r.pct_to_fi !== null)
@@ -165,7 +173,7 @@ export function NetWorthSection({
       <SectionHeader
         number="03"
         eyebrow="Where they stand"
-        title="Net worth, assets, and debt."
+        title={`Half the community sits above ${medNWFmt} in net worth.`}
         lede={
           <>
             Median household net worth by age. The shaded band shows the 25th–75th percentile —

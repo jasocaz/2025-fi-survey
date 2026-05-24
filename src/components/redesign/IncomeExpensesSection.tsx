@@ -118,7 +118,7 @@ export function IncomeExpensesSection({
       <SectionHeader
         number="05"
         eyebrow="How they live"
-        title="Income and expenses."
+        title={medSavingsRate !== null ? `Year after year, this community saves ${medSavingsRate.toFixed(0)}% of its income.` : "Year after year, this community saves a lot of its income."}
         lede={
           <>
             Housing and taxes dominate the expense side. On the income side, capital gains and

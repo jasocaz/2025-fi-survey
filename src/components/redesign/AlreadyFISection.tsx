@@ -44,7 +44,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
       <SectionHeader
         number="07"
         eyebrow="The cohort"
-        title="The already-FI cohort."
+        title={`${pctFI}% of the community has already arrived.`}
         lede={
           <>
             {pctFI}% of respondents say they&apos;re financially independent today. The cohort is
