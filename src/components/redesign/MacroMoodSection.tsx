@@ -114,7 +114,7 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} horizontal={false} />
               <XAxis
                 type="number"
-                tickFormatter={(v) => `${Math.abs(v)}%`}
+                tickFormatter={(v) => `${v > 0 ? "+" : ""}${v}%`}
                 tick={{ fontSize: 12, fill: CHART.axisLabel }}
                 axisLine={false}
                 tickLine={false}
