@@ -94,10 +94,19 @@ export function IncomeExpensesSection({
           <p className="text-[12px] text-[var(--slate-400)] mb-4">
             (income − consumption) / income · savings categorized inside expenses are excluded from consumption.
           </p>
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={290}>
             <BarChart data={srHistData} margin={{ top: 36, right: 20, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-              <XAxis dataKey="label" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis
+                dataKey="label"
+                tick={{ fontSize: 11, fill: CHART.axisLabel }}
+                axisLine={false}
+                tickLine={false}
+                angle={-35}
+                textAnchor="end"
+                interval={0}
+                height={54}
+              />
               <YAxis tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <Tooltip
                 formatter={(v) => [v, "respondents"]}

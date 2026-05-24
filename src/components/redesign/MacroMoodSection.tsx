@@ -117,7 +117,10 @@ export function MacroMoodSection({ rows }: { rows: SurveyResponse[] }) {
             ))}
           </div>
 
-          <ResponsiveContainer width="100%" height={280}>
+          {/* Chart is hidden below sm — on a 375px viewport the YAxis width
+              and left margin eat almost the entire width, leaving no room
+              for the bars. The mini-stat cards below show the same numbers. */}
+          <ResponsiveContainer width="100%" height={280} className="hidden sm:block">
             <BarChart
               data={data}
               layout="vertical"

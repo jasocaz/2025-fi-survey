@@ -181,10 +181,13 @@ export function FilterBar({ count, total }: Props) {
             className={cn(
               "p-0 flex flex-col gap-0",
               isMobile
-                ? "h-[88vh] rounded-t-2xl"
+                ? "h-[85dvh] max-h-[85dvh] rounded-t-2xl"
                 : "w-[420px] sm:max-w-[420px]",
             )}
-            style={{ fontFamily: "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif" }}
+            style={{
+              fontFamily: "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif",
+              paddingTop: isMobile ? "env(safe-area-inset-top)" : undefined,
+            }}
           >
             <SheetHeader className="px-6 pt-5 pb-4 border-b border-[var(--slate-050)] flex-row items-center justify-between space-y-0">
               <SheetTitle className="text-[15px] font-medium tracking-[-0.005em]">

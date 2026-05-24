@@ -333,17 +333,18 @@ export function FIPlanSection({
             <h3 className="text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--slate-500)] mb-3">
               Target retirement age
             </h3>
-            <ResponsiveContainer width="100%" height={190}>
+            <ResponsiveContainer width="100%" height={220}>
               <BarChart data={retireAgeData} margin={{ top: 0, right: 4, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
                 <XAxis
                   dataKey="bracket"
-                  tick={{ fontSize: 9, fill: CHART.axisLabel }}
+                  tick={{ fontSize: 11, fill: CHART.axisLabel }}
                   axisLine={false}
                   tickLine={false}
                   angle={-35}
                   textAnchor="end"
-                  height={36}
+                  interval={0}
+                  height={54}
                 />
                 <YAxis tick={{ fontSize: 12, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
                 <Tooltip

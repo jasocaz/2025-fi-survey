@@ -365,6 +365,16 @@
   color: var(--slate-600);
   text-align: right;
 }
+/* Mobile: shrink label column so the bar can dominate. The shadcn .rd-card
+   padding leaves ~280px of usable width on a 375px viewport; with the
+   desktop 160/60 fixed columns there's almost nothing left for the bar. */
+@media (max-width: 640px) {
+  [data-theme="redesign"] .hbar {
+    grid-template-columns: minmax(72px, 0.32fr) 1fr 36px;
+    gap: 10px;
+    font-size: 13px;
+  }
+}
 
 /* ---------- Chip ---------- */
 [data-theme="redesign"] .rd-chip {

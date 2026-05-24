@@ -121,10 +121,19 @@ export function YearsToFISection({ rows }: { rows: SurveyResponse[] }) {
           <p className="text-[12px] text-[var(--slate-400)] mb-4">
             Non-FI respondents only · assumes 7% real annual return.
           </p>
-          <ResponsiveContainer width="100%" height={230}>
+          <ResponsiveContainer width="100%" height={260}>
             <BarChart data={histData} margin={{ top: 28, right: 20, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-              <XAxis dataKey="label" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis
+                dataKey="label"
+                tick={{ fontSize: 11, fill: CHART.axisLabel }}
+                axisLine={false}
+                tickLine={false}
+                angle={-35}
+                textAnchor="end"
+                interval={0}
+                height={54}
+              />
               <YAxis tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <Tooltip
                 formatter={(v) => [v, "respondents"]}
@@ -158,10 +167,19 @@ export function YearsToFISection({ rows }: { rows: SurveyResponse[] }) {
           <p className="text-[12px] text-[var(--slate-400)] mb-4">
             Self-reported — non-FI respondents only.
           </p>
-          <ResponsiveContainer width="100%" height={230}>
+          <ResponsiveContainer width="100%" height={260}>
             <BarChart data={pctToFIHist} margin={{ top: 8, right: 20, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray={CHART.gridlineDashed} stroke={CHART.gridline} vertical={false} />
-              <XAxis dataKey="label" tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
+              <XAxis
+                dataKey="label"
+                tick={{ fontSize: 11, fill: CHART.axisLabel }}
+                axisLine={false}
+                tickLine={false}
+                angle={-35}
+                textAnchor="end"
+                interval={0}
+                height={54}
+              />
               <YAxis tick={{ fontSize: 11, fill: CHART.axisLabel }} axisLine={false} tickLine={false} />
               <Tooltip
                 formatter={(v) => [v, "respondents"]}
