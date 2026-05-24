@@ -4,14 +4,18 @@ import { useSearchParams } from "next/navigation";
 import { FilterBar } from "@/components/redesign/FilterBar";
 import { HeroSection } from "@/components/redesign/HeroSection";
 import { MethodologySnapshotSection } from "@/components/redesign/MethodologySnapshotSection";
-import { CompareSection } from "@/components/redesign/CompareSection";
 import { WhoRespondedSection } from "@/components/redesign/WhoRespondedSection";
 import { NetWorthSection } from "@/components/redesign/NetWorthSection";
 import { FIPlanSection } from "@/components/redesign/FIPlanSection";
 import { IncomeExpensesSection } from "@/components/redesign/IncomeExpensesSection";
-import { MacroMoodSection } from "@/components/redesign/MacroMoodSection";
+import { AllocationSection } from "@/components/redesign/AllocationSection";
+import { WithdrawalPlansSection } from "@/components/redesign/WithdrawalPlansSection";
+import { YearsToFISection } from "@/components/redesign/YearsToFISection";
 import { AlreadyFISection } from "@/components/redesign/AlreadyFISection";
+import { NotableFindingsSection } from "@/components/redesign/NotableFindingsSection";
 import { MethodologySection } from "@/components/redesign/MethodologySection";
+import { CompareSection } from "@/components/redesign/CompareSection";
+import { MacroMoodSection } from "@/components/redesign/MacroMoodSection";
 import { TopNav } from "@/components/redesign/TopNav";
 import { useVisitorProfile } from "@/hooks/useVisitorProfile";
 import { applyFilters, paramsToFilters } from "@/lib/filters";
@@ -33,10 +37,16 @@ export default function SurveyRedesignPage() {
       <TopNav />
       <FilterBar count={filteredRows.length} total={allRows.length} />
       <main id="top">
+        {/* 01 Hero */}
         <HeroSection rows={filteredRows} precomputed={pc} />
+
+        {/* 01 Methodology snapshot */}
         <MethodologySnapshotSection precomputed={pc} />
+
+        {/* 02 Who responded */}
         <WhoRespondedSection rows={filteredRows} />
-        <CompareSection allRows={allRows} precomputed={pc} />
+
+        {/* 03 Net worth */}
         <NetWorthSection
           rows={filteredRows}
           precomputed={pc}
@@ -44,18 +54,43 @@ export default function SurveyRedesignPage() {
           visitorDebt={profile.debt}
           visitorAgeBracket={profile.age_bracket}
         />
+
+        {/* 04 FI targets */}
         <FIPlanSection
           rows={filteredRows}
           visitorFINumber={profile.fi_number}
         />
+
+        {/* 05 Income & expenses */}
         <IncomeExpensesSection
           rows={filteredRows}
           visitorIncome={profile.income}
           visitorExpenses={profile.expenses}
         />
-        <MacroMoodSection rows={filteredRows} />
+
+        {/* 06 Allocation */}
+        <AllocationSection rows={filteredRows} />
+
+        {/* 07 Withdrawal plans */}
+        <WithdrawalPlansSection rows={filteredRows} />
+
+        {/* 08 Years to FI */}
+        <YearsToFISection rows={filteredRows} />
+
+        {/* 09 Already FI cohort */}
         <AlreadyFISection rows={filteredRows} />
+
+        {/* 10 Notable findings */}
+        <NotableFindingsSection rows={filteredRows} />
+
+        {/* 11 Methodology */}
         <MethodologySection total={pc.total} completed={pc.completed} />
+
+        {/* 12 Compare (kept, restyled via scoped CSS) */}
+        <CompareSection allRows={allRows} precomputed={pc} />
+
+        {/* 13 Macro mood */}
+        <MacroMoodSection rows={filteredRows} />
       </main>
 
       <footer

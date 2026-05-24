@@ -155,12 +155,11 @@ function SupplementChart({ rows }: { rows: SurveyResponse[] }) {
 
 export function FIPlanSection({
   rows,
-  visitorSWR,
 }: {
   rows: SurveyResponse[];
   visitorFINumber?: number | null;
-  visitorSWR?: number | null;
 }) {
+  const visitorSWR: number | null = null;
   const n = rows.length;
 
   const fiNums = rows.map((r) => r.fi_number).filter((v): v is number => v !== null);
@@ -213,7 +212,7 @@ export function FIPlanSection({
     <section data-section data-alt="true" id="fi-plan">
       <div>
         <SectionHeader
-          number="05"
+          number="04"
           eyebrow="Where they're going"
           title={`${medFIFmt} is the number the community is walking toward.`}
           lede={
