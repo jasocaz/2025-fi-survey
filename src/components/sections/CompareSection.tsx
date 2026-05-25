@@ -95,7 +95,7 @@ export function CompareSection({ allRows, precomputed }: { allRows: SurveyRespon
           {[
             `${precomputed.pct_male}% male`,
             `${precomputed.pct_us}% US`,
-            `${precomputed.pct_in_tech}% in IT`,
+            `${precomputed.pct_in_tech_eng}% in tech/eng`,
             precomputed.median_wages ? `median wages ${formatDollar(precomputed.median_wages, true)}` : null,
             `${precomputed.pct_college}% college-educated`,
           ].filter(Boolean).map((chip) => (

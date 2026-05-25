@@ -436,7 +436,10 @@ const demoTyped = responses as {
 const pctOf = (count: number) => Math.round((count / responses.length) * 100);
 const numMale = demoTyped.filter((r) => r.gender === "Male").length;
 const numUS = demoTyped.filter((r) => r.in_us === true).length;
-const numInTech = demoTyped.filter((r) => r.industry?.includes("Information Technology")).length;
+const numInTechEng = demoTyped.filter((r) => {
+  const ind = r.industry ?? "";
+  return ind.includes("Information Technology") || ind.includes("Engineering");
+}).length;
 const numCollege = demoTyped.filter((r) => {
   const e = r.education ?? "";
   return e.includes("Bachelor") || e.includes("Master") || e.includes("Doctorate");
@@ -459,7 +462,7 @@ const precomputed = {
   // Demographic snapshot
   pct_male: pctOf(numMale),
   pct_us: pctOf(numUS),
-  pct_in_tech: pctOf(numInTech),
+  pct_in_tech_eng: pctOf(numInTechEng),
   pct_college: pctOf(numCollege),
   median_wages: medianWages,
   nw_percentile_table: buildPercentileTable(nwValues),

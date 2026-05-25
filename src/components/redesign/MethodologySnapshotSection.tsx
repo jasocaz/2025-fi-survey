@@ -50,8 +50,8 @@ export function MethodologySnapshotSection({ precomputed }: Props) {
         <Kpi value={`${precomputed.pct_us}%`} sub="US-based; international respondents converted at fixed rates.">
           US share
         </Kpi>
-        <Kpi value={`${precomputed.pct_in_tech}%`} sub="Tech-adjacent — software, IT, engineering, finance.">
-          Tech-adjacent
+        <Kpi value={`${precomputed.pct_in_tech_eng}%`} sub="Work in software, IT, or engineering.">
+          In tech or engineering
         </Kpi>
         <Kpi value={`${precomputed.pct_college}%`} sub="At least a bachelor's degree.">
           College-educated

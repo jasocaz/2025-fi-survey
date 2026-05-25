@@ -85,7 +85,7 @@ if (!header[C.inc_wages]?.toLowerCase().includes("wages")) {
 // --- Recompute headline stats independently ---
 const get = (r: string[], i: number) => (r[i] ?? "").trim();
 const N = rows.length;
-let numCompleted = 0, numFI = 0, numRE = 0, numMale = 0, numUS = 0, numInTech = 0, numCollege = 0;
+let numCompleted = 0, numFI = 0, numRE = 0, numMale = 0, numUS = 0, numInTechEng = 0, numCollege = 0;
 const nwValues: number[] = [];
 const fiNumValues: number[] = [];
 const wagesValues: number[] = [];
@@ -100,7 +100,10 @@ for (const r of rows) {
   if (get(r, C.is_re).toLowerCase() === "yes") numRE++;
   if (get(r, C.gender) === "Male") numMale++;
   if (get(r, C.in_us).toLowerCase() === "yes") numUS++;
-  if (get(r, C.industry).includes("Information Technology")) numInTech++;
+  {
+    const ind = get(r, C.industry);
+    if (ind.includes("Information Technology") || ind.includes("Engineering")) numInTechEng++;
+  }
   const edu = get(r, C.education);
   if (edu.includes("Bachelor") || edu.includes("Master") || edu.includes("Doctorate")) numCollege++;
 
@@ -130,7 +133,7 @@ const computed = {
   pct_re: Math.round((numRE / N) * 100),
   pct_male: Math.round((numMale / N) * 100),
   pct_us: Math.round((numUS / N) * 100),
-  pct_in_tech: Math.round((numInTech / N) * 100),
+  pct_in_tech_eng: Math.round((numInTechEng / N) * 100),
   pct_college: Math.round((numCollege / N) * 100),
   median_nw: Math.round(percentile(nwValues, 50)),
   median_fi_number: Math.round(percentile(fiNumValues, 50)),
@@ -150,7 +153,7 @@ const checks: Check[] = [
   { label: "% already RE", computed: computed.pct_re, expected: pre.pct_re },
   { label: "% male", computed: computed.pct_male, expected: pre.pct_male },
   { label: "% US-based", computed: computed.pct_us, expected: pre.pct_us },
-  { label: "% in IT", computed: computed.pct_in_tech, expected: pre.pct_in_tech },
+  { label: "% in tech/eng", computed: computed.pct_in_tech_eng, expected: pre.pct_in_tech_eng },
   { label: "% college-educated", computed: computed.pct_college, expected: pre.pct_college },
   { label: "median net worth", computed: computed.median_nw, expected: pre.median_nw, tolerance: 1 },
   { label: "median FI number", computed: computed.median_fi_number, expected: pre.median_fi_number, tolerance: 1 },
@@ -190,7 +193,7 @@ console.log();
 console.log(`  Bias call-out chips:`);
 console.log(`    ${computed.pct_male}% male`);
 console.log(`    ${computed.pct_us}% US`);
-console.log(`    ${computed.pct_in_tech}% in IT`);
+console.log(`    ${computed.pct_in_tech_eng}% in tech/eng`);
 console.log(`    median wages ${fmtUSD(computed.median_wages)}`);
 console.log(`    ${computed.pct_college}% college-educated`);
 console.log();
