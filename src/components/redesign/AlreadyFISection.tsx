@@ -199,7 +199,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
         <div className="bg-white border border-[var(--slate-050)] rounded-xl p-6">
           <h3 className="text-[13px] font-medium text-foreground mb-1">Spending vs plan</h3>
           <p className="text-[12px] text-[var(--slate-400)] mb-4">
-            Retirees overwhelmingly underspend their plan — caution, not splurging, dominates.
+            Retirees are overwhelmingly underspending their plan right now — this is likely a combination of age-associated caution (younger retirees need their money to last longer) and current market performance.
           </p>
           <div className="flex items-center gap-6 mt-4">
             <PieChart width={160} height={160}>

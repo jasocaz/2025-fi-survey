@@ -95,7 +95,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
         {/* Withdrawing more/less/right */}
         <div>
           <h3 className="text-sm font-semibold text-stone-700 mb-1">Spending vs plan</h3>
-          <p className="text-xs text-stone-400 mb-3">Retirees overwhelmingly underspend their plan — caution, not splurging, dominates.</p>
+          <p className="text-xs text-stone-400 mb-3">Retirees are overwhelmingly underspending their plan right now — this is likely a combination of age-associated caution (younger retirees need their money to last longer) and current market performance.</p>
           <div className="flex items-center gap-6 mt-8">
             <PieChart width={160} height={160}>
               <Pie data={wdData} cx={75} cy={75} innerRadius={45} outerRadius={72} paddingAngle={2} dataKey="value">
