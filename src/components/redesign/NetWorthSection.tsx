@@ -96,22 +96,29 @@ function AgePieSelector({
 }
 
 function getAssetPieces(subset: SurveyResponse[]) {
+  // Zero-fill nulls so non-reporters of a component (e.g. renters with no
+  // primary_residence) contribute $0 instead of being dropped from the
+  // numerator. Without this, per-component averages are computed over
+  // different subsets than avg(total) and the slices don't sum to 100%.
   const avg = (getter: (r: SurveyResponse) => number | null) => {
-    const vals = subset.map(getter).filter((v): v is number => v !== null);
-    return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+    if (subset.length === 0) return 0;
+    return subset.reduce((s, r) => s + (getter(r) ?? 0), 0) / subset.length;
   };
-  const total = avg((r) => r.assets.total) || 1;
+  const aRetirement = avg((r) => r.assets.retirement);
+  const aTaxable = avg((r) => r.assets.taxable);
+  const aPrimary = avg((r) => r.assets.primary_residence);
+  const aCash = avg((r) => r.assets.cash);
+  const aOther =
+    avg((r) => r.assets.speculative) +
+    avg((r) => r.assets.properties) +
+    avg((r) => r.assets.other);
+  const total = aRetirement + aTaxable + aPrimary + aCash + aOther || 1;
   return [
-    { name: "Retirement", value: Math.round((avg((r) => r.assets.retirement) / total) * 100) },
-    { name: "Taxable", value: Math.round((avg((r) => r.assets.taxable) / total) * 100) },
-    { name: "Primary Home", value: Math.round((avg((r) => r.assets.primary_residence) / total) * 100) },
-    { name: "Cash", value: Math.round((avg((r) => r.assets.cash) / total) * 100) },
-    {
-      name: "Other",
-      value: Math.round(
-        ((avg((r) => r.assets.speculative) + avg((r) => r.assets.properties) + avg((r) => r.assets.other)) / total) * 100,
-      ),
-    },
+    { name: "Retirement", value: Math.round((aRetirement / total) * 100) },
+    { name: "Taxable", value: Math.round((aTaxable / total) * 100) },
+    { name: "Primary Home", value: Math.round((aPrimary / total) * 100) },
+    { name: "Cash", value: Math.round((aCash / total) * 100) },
+    { name: "Other", value: Math.round((aOther / total) * 100) },
   ];
 }
 
