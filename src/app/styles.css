@@ -281,7 +281,7 @@
 }
 [data-theme="redesign"] .rd-card--navy .bignum .accent,
 [data-theme="redesign"] .rd-card--purple .bignum .accent {
-  color: #11efe3;
+  color: #f5d5a4; /* warm champagne — harmonizes with the gradient's yellow mesh */
 }
 
 /* ---------- KPI row (hero stats) ---------- */

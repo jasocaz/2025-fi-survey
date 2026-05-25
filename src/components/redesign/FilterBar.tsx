@@ -169,7 +169,7 @@ export function FilterBar({ count, total }: Props) {
             {activeCount > 0 && (
               <span
                 className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-full text-[11px] font-semibold px-1.5 tabular-nums"
-                style={{ background: "#11EFE3", color: "#04432D" }}
+                style={{ background: "#F5D5A4", color: "#04432D" }}
               >
                 {activeCount}
               </span>

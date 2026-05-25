@@ -97,7 +97,7 @@ function Kpi({
       </dt>
       <dd className="font-medium leading-none tracking-[-0.03em] numerics text-[clamp(34px,4vw,56px)]">
         {value}
-        {valueSuffix && <span style={{ color: "#11EFE3" }}>{valueSuffix}</span>}
+        {valueSuffix && <span style={{ color: "#F5D5A4" }}>{valueSuffix}</span>}
       </dd>
       <p className="mt-3.5 text-[13px] leading-[1.4] text-white/72 max-w-[22ch]">{sub}</p>
     </div>
