@@ -17,6 +17,7 @@ import { FI_FLAVORS } from "@/lib/types";
 import { SectionHeader } from "./SectionHeader";
 import { CHART, BRAND, FLAVOR_COLORS } from "@/lib/redesign/theme";
 import { median } from "@/lib/percentile";
+import { apportionTo100, auditSumsTo100 } from "@/lib/apportion";
 
 const TIMING_COLORS = [BRAND.greenDeep, BRAND.green, "#A9E4C7"];
 const STOP_COLORS = [BRAND.green, BRAND.greenLight, "#FF8A65", "#ADBDCC"];
@@ -175,17 +176,31 @@ export function FIPlanSection({
   const swrVals = rows.map((r) => r.target_swr).filter((v): v is number => v !== null && v >= 1 && v <= 5.5);
   const medSWR = swrVals.length ? median(swrVals) : null;
 
-  const flavorData = FI_FLAVORS.map((f) => ({
+  // Apportion both donut charts so the displayed % slices sum to exactly
+  // 100%. The denominator becomes the count of respondents who answered the
+  // question (excluding nulls) rather than rows.length — matching the visual
+  // expectation that a pie's wedges represent shares of a whole.
+  const flavorCounts = FI_FLAVORS.map((f) => ({
     name: f.replace(" / Coast FI", ""),
-    value: rows.filter((r) => r.fi_flavor === f).length,
-  })).filter((d) => d.value > 0);
+    count: rows.filter((r) => r.fi_flavor === f).length,
+  })).filter((d) => d.count > 0);
+  const flavorPct = Object.fromEntries(
+    apportionTo100(flavorCounts.map((d) => ({ key: d.name, raw: d.count }))).map((p) => [p.key, p.value]),
+  );
+  const flavorData = flavorCounts.map((d) => ({ name: d.name, value: d.count, pct: flavorPct[d.name] ?? 0 }));
+  auditSumsTo100("FI flavor donut", flavorData.map((d) => d.pct));
 
-  const stopWorkingData = (() => {
+  const stopWorkingCounts = (() => {
     const opts = ["Yes", "Partially", "No", "Undecided"];
     return opts
-      .map((o) => ({ name: o, value: rows.filter((r) => r.stop_working_at_fi === o).length }))
-      .filter((d) => d.value > 0);
+      .map((o) => ({ name: o, count: rows.filter((r) => r.stop_working_at_fi === o).length }))
+      .filter((d) => d.count > 0);
   })();
+  const stopWorkingPct = Object.fromEntries(
+    apportionTo100(stopWorkingCounts.map((d) => ({ key: d.name, raw: d.count }))).map((p) => [p.key, p.value]),
+  );
+  const stopWorkingData = stopWorkingCounts.map((d) => ({ name: d.name, value: d.count, pct: stopWorkingPct[d.name] ?? 0 }));
+  auditSumsTo100("Stop working at FI donut", stopWorkingData.map((d) => d.pct));
 
   const retireAgeData = (() => {
     const brackets = [
@@ -273,7 +288,10 @@ export function FIPlanSection({
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(v) => [`${v} (${Math.round((Number(v) / n) * 100)}%)`, ""]}
+                  formatter={(_v, _n, item) => {
+                    const d = item?.payload as { value: number; pct: number } | undefined;
+                    return [`${d?.value ?? 0} (${d?.pct ?? 0}%)`, ""];
+                  }}
                   contentStyle={{ fontSize: 12, borderColor: CHART.tooltipBorder, borderRadius: 8 }}
                 />
               </PieChart>
@@ -285,9 +303,7 @@ export function FIPlanSection({
                       style={{ background: FLAVOR_COLORS[d.name] ?? "#aaa" }}
                     />
                     <span className="text-[var(--slate-600)]">{d.name}</span>
-                    <span className="font-mono numerics text-[var(--slate-500)]">
-                      {Math.round((d.value / n) * 100)}%
-                    </span>
+                    <span className="font-mono numerics text-[var(--slate-500)]">{d.pct}%</span>
                   </li>
                 ))}
               </ul>
@@ -307,7 +323,10 @@ export function FIPlanSection({
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(v) => [`${v} (${Math.round((Number(v) / n) * 100)}%)`, ""]}
+                  formatter={(_v, _n, item) => {
+                    const d = item?.payload as { value: number; pct: number } | undefined;
+                    return [`${d?.value ?? 0} (${d?.pct ?? 0}%)`, ""];
+                  }}
                   contentStyle={{ fontSize: 12, borderColor: CHART.tooltipBorder, borderRadius: 8 }}
                 />
               </PieChart>
@@ -319,9 +338,7 @@ export function FIPlanSection({
                       style={{ background: STOP_COLORS[i] }}
                     />
                     <span className="text-[var(--slate-600)]">{d.name}</span>
-                    <span className="font-mono numerics text-[var(--slate-500)]">
-                      {Math.round((d.value / n) * 100)}%
-                    </span>
+                    <span className="font-mono numerics text-[var(--slate-500)]">{d.pct}%</span>
                   </li>
                 ))}
               </ul>
