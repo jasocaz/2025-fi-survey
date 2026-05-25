@@ -3,10 +3,7 @@ import type { SurveyResponse } from "@/lib/types";
 import { SectionHeader } from "./SectionHeader";
 import { median } from "@/lib/percentile";
 import { formatDollar } from "@/lib/percentile";
-
-function pct(n: number, total: number) {
-  return total > 0 ? Math.round((n / total) * 100) : 0;
-}
+import { apportionTo100, auditSumsTo100 } from "@/lib/apportion";
 
 export function AllocationSection({ rows }: { rows: SurveyResponse[] }) {
   const withAssets = rows.filter((r) => r.assets.total !== null && r.assets.total > 0);
@@ -22,12 +19,19 @@ export function AllocationSection({ rows }: { rows: SurveyResponse[] }) {
   const avgCash = avg((r) => (r.assets.cash ?? 0) + (r.assets.dedicated_savings ?? 0));
   const avgRealEstate = avg((r) => (r.assets.primary_residence ?? 0) + (r.assets.properties ?? 0));
   const avgOther = avg((r) => (r.assets.speculative ?? 0) + (r.assets.other ?? 0));
-  const avgTotal = avgRetirement + avgTaxable + avgCash + avgRealEstate + avgOther || 1;
 
-  const investmentPct = pct(avgRetirement + avgTaxable, avgTotal);
-  const cashPct = pct(avgCash, avgTotal);
-  const realEstatePct = pct(avgRealEstate, avgTotal);
-  const otherPct = Math.max(0, 100 - investmentPct - cashPct - realEstatePct);
+  const apportioned = apportionTo100([
+    { key: "investment", raw: avgRetirement + avgTaxable },
+    { key: "realEstate", raw: avgRealEstate },
+    { key: "cash", raw: avgCash },
+    { key: "other", raw: avgOther },
+  ]);
+  const pctMap = Object.fromEntries(apportioned.map((p) => [p.key, p.value])) as Record<string, number>;
+  const investmentPct = pctMap.investment ?? 0;
+  const realEstatePct = pctMap.realEstate ?? 0;
+  const cashPct = pctMap.cash ?? 0;
+  const otherPct = pctMap.other ?? 0;
+  auditSumsTo100("Section 6 Asset Allocation", [investmentPct, realEstatePct, cashPct, otherPct]);
 
   const stackSegments = [
     { label: "Investment accounts", pct: investmentPct, color: "#0E9F6E" },

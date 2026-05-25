@@ -7,6 +7,7 @@ import { AGE_BRACKETS } from "@/lib/types";
 import type { SurveyResponse, Precomputed } from "@/lib/types";
 import { SectionHeader } from "./SectionHeader";
 import { CHART, BRAND, ASSET_COLORS, SLATE } from "@/lib/redesign/theme";
+import { apportionTo100, auditSumsTo100 } from "@/lib/apportion";
 
 function pct(sorted: number[], p: number) {
   return sorted.length ? percentileValue(sorted, p) : null;
@@ -104,22 +105,21 @@ function getAssetPieces(subset: SurveyResponse[]) {
     if (subset.length === 0) return 0;
     return subset.reduce((s, r) => s + (getter(r) ?? 0), 0) / subset.length;
   };
-  const aRetirement = avg((r) => r.assets.retirement);
-  const aTaxable = avg((r) => r.assets.taxable);
-  const aPrimary = avg((r) => r.assets.primary_residence);
-  const aCash = avg((r) => (r.assets.cash ?? 0) + (r.assets.dedicated_savings ?? 0));
-  const aOther =
-    avg((r) => r.assets.speculative) +
-    avg((r) => r.assets.properties) +
-    avg((r) => r.assets.other);
-  const total = aRetirement + aTaxable + aPrimary + aCash + aOther || 1;
-  return [
-    { name: "Retirement", value: Math.round((aRetirement / total) * 100) },
-    { name: "Taxable", value: Math.round((aTaxable / total) * 100) },
-    { name: "Primary Home", value: Math.round((aPrimary / total) * 100) },
-    { name: "Cash", value: Math.round((aCash / total) * 100) },
-    { name: "Other", value: Math.round((aOther / total) * 100) },
-  ];
+  const apportioned = apportionTo100([
+    { key: "Retirement", raw: avg((r) => r.assets.retirement) },
+    { key: "Taxable", raw: avg((r) => r.assets.taxable) },
+    { key: "Primary Home", raw: avg((r) => r.assets.primary_residence) },
+    { key: "Cash", raw: avg((r) => (r.assets.cash ?? 0) + (r.assets.dedicated_savings ?? 0)) },
+    {
+      key: "Other",
+      raw:
+        avg((r) => r.assets.speculative) +
+        avg((r) => r.assets.properties) +
+        avg((r) => r.assets.other),
+    },
+  ]);
+  auditSumsTo100("Section 3 Asset Composition", apportioned.map((p) => p.value));
+  return apportioned.map(({ key, value }) => ({ name: key, value }));
 }
 
 export function NetWorthSection({
