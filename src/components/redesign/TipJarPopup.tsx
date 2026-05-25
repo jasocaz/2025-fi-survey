@@ -11,7 +11,7 @@ export function TipJarPopup() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
-      if (localStorage.getItem(DISMISS_KEY)) return;
+      if (sessionStorage.getItem(DISMISS_KEY)) return;
     } catch {}
     const timer = setTimeout(() => setVisible(true), DELAY_MS);
     return () => clearTimeout(timer);
@@ -20,7 +20,7 @@ export function TipJarPopup() {
   const dismiss = () => {
     setVisible(false);
     try {
-      localStorage.setItem(DISMISS_KEY, "1");
+      sessionStorage.setItem(DISMISS_KEY, "1");
     } catch {}
   };
 
