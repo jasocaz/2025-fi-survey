@@ -204,14 +204,22 @@ export function CrossTabsSection({ rows }: { rows: SurveyResponse[] }) {
       </div>
 
       {/* Card 5 — Full-width pull quote (real respondent quote) */}
-      <div className="rd-card">
-        <span className="rd-chip" style={{ marginBottom: 20, display: "inline-flex" }}>
+      <div className=”rd-card” style={{ maxWidth: “72ch” }}>
+        <span className=”rd-chip” style={{ marginBottom: 20, display: “inline-flex” }}>
           In their words
         </span>
-        <p className="pull pull--accent">
-          “There&apos;s no finish line, everything is just a new start line.”
-        </p>
-        <p style={{ fontSize: 14, color: "var(--slate-600)", lineHeight: 1.6, margin: 0, maxWidth: "72ch" }}>
+        <blockquote
+          style={{
+            borderLeft: “3px solid var(--brand)”,
+            paddingLeft: 16,
+            margin: “0 0 16px”,
+          }}
+        >
+          <p className=”pull pull--accent” style={{ margin: 0 }}>
+            “There&apos;s no finish line, everything is just a new start line.”
+          </p>
+        </blockquote>
+        <p style={{ fontSize: 14, color: “var(--slate-600)”, lineHeight: 1.6, margin: 0 }}>
           A pattern in the 33 free-text responses to “What misconceptions about retirement
           have you encountered on r/financialindependence?” The loudest community
           self-critique isn&apos;t about the math — it&apos;s about treating FIRE as a
@@ -220,7 +228,7 @@ export function CrossTabsSection({ rows }: { rows: SurveyResponse[] }) {
           “Simulation Bias — the idea that mastering a spreadsheet is the same as mastering
           retirement.”
         </p>
-        <p style={{ fontSize: 11, color: "var(--slate-400)", marginTop: 16, fontStyle: "italic" }}>
+        <p style={{ fontSize: 11, color: “var(--slate-400)”, marginTop: 16, fontStyle: “italic” }}>
           Quotes from anonymous survey respondents · raw open-text responses from
           data/raw/responses.csv
         </p>
