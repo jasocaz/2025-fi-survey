@@ -78,7 +78,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
         {/* Actual SWR distribution */}
         <div>
           <h3 className="text-sm font-semibold text-stone-700 mb-1">Actual withdrawal rate (retirees)</h3>
-          <p className="text-xs text-stone-400 mb-3">Most retirees are well below their target. The 4% rule stays comfortably unbreached.</p>
+          <p className="text-xs text-stone-400 mb-3">Median retiree SWR is 2.8% — partly because half of retired respondents are under 45 and pacing for a long horizon.</p>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={swrData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0ede6" vertical={false} />
@@ -95,7 +95,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
         {/* Withdrawing more/less/right */}
         <div>
           <h3 className="text-sm font-semibold text-stone-700 mb-1">Spending vs plan</h3>
-          <p className="text-xs text-stone-400 mb-3">More retirees report spending less than planned than spending more — the classic &ldquo;one more year&rdquo; effect in action.</p>
+          <p className="text-xs text-stone-400 mb-3">Retirees overwhelmingly underspend their plan — caution, not splurging, dominates.</p>
           <div className="flex items-center gap-6 mt-8">
             <PieChart width={160} height={160}>
               <Pie data={wdData} cx={75} cy={75} innerRadius={45} outerRadius={72} paddingAngle={2} dataKey="value">

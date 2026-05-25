@@ -151,7 +151,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
         <div className="bg-white border border-[var(--slate-050)] rounded-xl p-6">
           <h3 className="text-[13px] font-medium text-foreground mb-1">Actual withdrawal rate (retirees)</h3>
           <p className="text-[12px] text-[var(--slate-400)] mb-4">
-            Most retirees are well below their target. The 4% rule stays comfortably unbreached.
+            Median retiree SWR is 2.8% — partly because half of retired respondents are under 45 and pacing for a long horizon.
           </p>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={swrData} margin={{ top: 28, right: 20, left: 0, bottom: 0 }}>
@@ -199,8 +199,7 @@ export function AlreadyFISection({ rows }: { rows: SurveyResponse[] }) {
         <div className="bg-white border border-[var(--slate-050)] rounded-xl p-6">
           <h3 className="text-[13px] font-medium text-foreground mb-1">Spending vs plan</h3>
           <p className="text-[12px] text-[var(--slate-400)] mb-4">
-            More retirees report spending less than planned than spending more — the classic
-            &ldquo;one more year&rdquo; effect in action.
+            Retirees overwhelmingly underspend their plan — caution, not splurging, dominates.
           </p>
           <div className="flex items-center gap-6 mt-4">
             <PieChart width={160} height={160}>
