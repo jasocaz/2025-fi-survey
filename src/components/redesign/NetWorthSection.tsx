@@ -107,7 +107,7 @@ function getAssetPieces(subset: SurveyResponse[]) {
   const aRetirement = avg((r) => r.assets.retirement);
   const aTaxable = avg((r) => r.assets.taxable);
   const aPrimary = avg((r) => r.assets.primary_residence);
-  const aCash = avg((r) => r.assets.cash);
+  const aCash = avg((r) => (r.assets.cash ?? 0) + (r.assets.dedicated_savings ?? 0));
   const aOther =
     avg((r) => r.assets.speculative) +
     avg((r) => r.assets.properties) +
