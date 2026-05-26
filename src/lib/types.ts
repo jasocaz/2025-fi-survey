@@ -132,7 +132,7 @@ export interface Precomputed {
   swr_distribution: Record<string, number>;
 }
 
-export type HhiBracketValue = "all" | "u100k" | "100_150k" | "150_250k" | "250_400k" | "400_600k" | "600kplus";
+export type HhiBracketValue = "u100k" | "100_150k" | "150_250k" | "250_400k" | "400_600k" | "600kplus";
 
 export interface Filters {
   geo: "all" | "US" | "CA" | "EU" | "APAC_OTHER";
@@ -140,7 +140,7 @@ export interface Filters {
   flavors: string[];
   age_brackets: string[];
   household: "all" | "single" | "dual";
-  hhi: HhiBracketValue;
+  hhi: string[];
 }
 
 export const DEFAULT_FILTERS: Filters = {
@@ -149,7 +149,7 @@ export const DEFAULT_FILTERS: Filters = {
   flavors: [],
   age_brackets: [],
   household: "all",
-  hhi: "all",
+  hhi: [],
 };
 
 export const AGE_BRACKETS = [

@@ -52,7 +52,7 @@ function countActiveFilters(f: Filters): number {
   if (f.geo !== "all") n++;
   if (f.fi_status !== "all") n++;
   if (f.household !== "all") n++;
-  if (f.hhi !== "all") n++;
+  n += f.hhi.length;
   n += f.flavors.length;
   n += f.age_brackets.length;
   return n;
@@ -102,6 +102,13 @@ export function FilterBar({ count, total }: Props) {
       ? filters.age_brackets.filter((x) => x !== a)
       : [...filters.age_brackets, a];
     updateFilters({ age_brackets: next });
+  };
+
+  const toggleHhi = (v: string) => {
+    const next = filters.hhi.includes(v)
+      ? filters.hhi.filter((x) => x !== v)
+      : [...filters.hhi, v];
+    updateFilters({ hhi: next });
   };
 
   // Active filter chips — shown inline on sm+, hidden on xs.
@@ -236,18 +243,12 @@ export function FilterBar({ count, total }: Props) {
                 ))}
               </Group>
 
-              <Group label="Household income">
-                <button
-                  onClick={() => updateFilters({ hhi: "all" })}
-                  className={pillClass(filters.hhi === "all")}
-                >
-                  Any
-                </button>
+              <Group label="Household income · multi-select">
                 {HHI_BRACKETS.map((b) => (
                   <button
                     key={b.value}
-                    onClick={() => updateFilters({ hhi: b.value })}
-                    className={pillClass(filters.hhi === b.value)}
+                    onClick={() => toggleHhi(b.value)}
+                    className={pillClass(filters.hhi.includes(b.value))}
                   >
                     {b.label}
                   </button>
@@ -386,9 +387,11 @@ function buildChips(f: Filters): Array<{ key: string; label: string; value: stri
     const m: Record<string, string> = { single: "Single", dual: "Dual" };
     out.push({ key: "household", label: "Household", value: m[f.household] ?? f.household });
   }
-  if (f.hhi !== "all") {
-    const bracket = HHI_BRACKETS.find((b) => b.value === f.hhi);
-    if (bracket) out.push({ key: "hhi", label: "HHI", value: bracket.label });
+  if (f.hhi.length) {
+    const value = f.hhi.length === 1
+      ? (HHI_BRACKETS.find((b) => b.value === f.hhi[0])?.label ?? "1")
+      : `${f.hhi.length}`;
+    out.push({ key: "hhi", label: "HHI", value });
   }
   if (f.flavors.length) out.push({ key: "flavor", label: "Flavor", value: `${f.flavors.length}` });
   if (f.age_brackets.length) out.push({ key: "age", label: "Age", value: `${f.age_brackets.length}` });

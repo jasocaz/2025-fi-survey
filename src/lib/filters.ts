@@ -2,7 +2,9 @@ import type { Filters, SurveyResponse } from "./types";
 import { HHI_BRACKETS } from "./types";
 
 export function applyFilters(rows: SurveyResponse[], filters: Filters): SurveyResponse[] {
-  const hhiBracket = filters.hhi !== "all" ? HHI_BRACKETS.find((b) => b.value === filters.hhi) : null;
+  const selectedHhi = filters.hhi.length > 0
+    ? HHI_BRACKETS.filter((b) => filters.hhi.includes(b.value))
+    : null;
   return rows.filter((r) => {
     if (filters.geo !== "all" && r.region !== filters.geo) return false;
     if (filters.fi_status === "pursuing" && (r.is_fi || r.is_re)) return false;
@@ -12,11 +14,13 @@ export function applyFilters(rows: SurveyResponse[], filters: Filters): SurveyRe
     if (filters.age_brackets.length > 0 && !filters.age_brackets.includes(r.age_bracket ?? "")) return false;
     if (filters.household === "single" && r.contributors !== 1) return false;
     if (filters.household === "dual" && r.contributors < 2) return false;
-    if (hhiBracket) {
+    if (selectedHhi) {
       const total = r.income.total;
       if (total === null) return false;
-      if (total < hhiBracket.min) return false;
-      if (hhiBracket.max !== null && total >= hhiBracket.max) return false;
+      const inAny = selectedHhi.some(
+        (b) => total >= b.min && (b.max === null || total < b.max)
+      );
+      if (!inAny) return false;
     }
     return true;
   });
@@ -29,7 +33,7 @@ export function filtersToParams(filters: Filters): URLSearchParams {
   if (filters.flavors.length) p.set("flavors", filters.flavors.join(","));
   if (filters.age_brackets.length) p.set("ages", filters.age_brackets.join(","));
   if (filters.household !== "all") p.set("hh", filters.household);
-  if (filters.hhi !== "all") p.set("hhi", filters.hhi);
+  if (filters.hhi.length) p.set("hhi", filters.hhi.join(","));
   return p;
 }
 
@@ -40,6 +44,6 @@ export function paramsToFilters(params: URLSearchParams): Filters {
     flavors: params.get("flavors")?.split(",").filter(Boolean) ?? [],
     age_brackets: params.get("ages")?.split(",").filter(Boolean) ?? [],
     household: (params.get("hh") as Filters["household"]) || "all",
-    hhi: (params.get("hhi") as Filters["hhi"]) || "all",
+    hhi: params.get("hhi")?.split(",").filter(Boolean) ?? [],
   };
 }
