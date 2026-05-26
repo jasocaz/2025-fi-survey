@@ -132,12 +132,15 @@ export interface Precomputed {
   swr_distribution: Record<string, number>;
 }
 
+export type HhiBracketValue = "all" | "u100k" | "100_150k" | "150_250k" | "250_400k" | "400_600k" | "600kplus";
+
 export interface Filters {
   geo: "all" | "US" | "CA" | "EU" | "APAC_OTHER";
   fi_status: "all" | "pursuing" | "fi" | "re";
   flavors: string[];
   age_brackets: string[];
   household: "all" | "single" | "dual";
+  hhi: HhiBracketValue;
 }
 
 export const DEFAULT_FILTERS: Filters = {
@@ -146,6 +149,7 @@ export const DEFAULT_FILTERS: Filters = {
   flavors: [],
   age_brackets: [],
   household: "all",
+  hhi: "all",
 };
 
 export const AGE_BRACKETS = [
@@ -154,3 +158,12 @@ export const AGE_BRACKETS = [
 ];
 
 export const FI_FLAVORS = ["FI","ChubbyFI","LeanFI","FatFI","Barista / Coast FI","Undecided"];
+
+export const HHI_BRACKETS: Array<{ value: HhiBracketValue; label: string; min: number; max: number | null }> = [
+  { value: "u100k",    label: "<$100k",      min: 0,       max: 100_000 },
+  { value: "100_150k", label: "$100–150k",   min: 100_000, max: 150_000 },
+  { value: "150_250k", label: "$150–250k",   min: 150_000, max: 250_000 },
+  { value: "250_400k", label: "$250–400k",   min: 250_000, max: 400_000 },
+  { value: "400_600k", label: "$400–600k",   min: 400_000, max: 600_000 },
+  { value: "600kplus", label: "$600k+",      min: 600_000, max: null    },
+];

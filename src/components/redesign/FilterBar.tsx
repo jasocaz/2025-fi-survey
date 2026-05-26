@@ -3,7 +3,7 @@ import { useCallback, useTransition, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import type { Filters } from "@/lib/types";
-import { AGE_BRACKETS, FI_FLAVORS } from "@/lib/types";
+import { AGE_BRACKETS, FI_FLAVORS, HHI_BRACKETS } from "@/lib/types";
 import { filtersToParams, paramsToFilters } from "@/lib/filters";
 import { cn } from "@/lib/utils";
 
@@ -52,6 +52,7 @@ function countActiveFilters(f: Filters): number {
   if (f.geo !== "all") n++;
   if (f.fi_status !== "all") n++;
   if (f.household !== "all") n++;
+  if (f.hhi !== "all") n++;
   n += f.flavors.length;
   n += f.age_brackets.length;
   return n;
@@ -235,6 +236,24 @@ export function FilterBar({ count, total }: Props) {
                 ))}
               </Group>
 
+              <Group label="Household income">
+                <button
+                  onClick={() => updateFilters({ hhi: "all" })}
+                  className={pillClass(filters.hhi === "all")}
+                >
+                  Any
+                </button>
+                {HHI_BRACKETS.map((b) => (
+                  <button
+                    key={b.value}
+                    onClick={() => updateFilters({ hhi: b.value })}
+                    className={pillClass(filters.hhi === b.value)}
+                  >
+                    {b.label}
+                  </button>
+                ))}
+              </Group>
+
               <Group label="Flavor · multi-select">
                 {FI_FLAVORS.map((f) => (
                   <button
@@ -366,6 +385,10 @@ function buildChips(f: Filters): Array<{ key: string; label: string; value: stri
   if (f.household !== "all") {
     const m: Record<string, string> = { single: "Single", dual: "Dual" };
     out.push({ key: "household", label: "Household", value: m[f.household] ?? f.household });
+  }
+  if (f.hhi !== "all") {
+    const bracket = HHI_BRACKETS.find((b) => b.value === f.hhi);
+    if (bracket) out.push({ key: "hhi", label: "HHI", value: bracket.label });
   }
   if (f.flavors.length) out.push({ key: "flavor", label: "Flavor", value: `${f.flavors.length}` });
   if (f.age_brackets.length) out.push({ key: "age", label: "Age", value: `${f.age_brackets.length}` });
